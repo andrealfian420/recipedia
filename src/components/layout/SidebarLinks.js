@@ -9,7 +9,7 @@ const SidebarLinks = (props) => {
         !showMobileLinks ? 'hidden' : 'block'
       } md:block`}
     >
-      <li className="text-gray-700 font-bold border-white py-2">
+      <li className="text-gray-700 font-bold border-r-4 border-white py-2">
         <a
           href="!#"
           className="flex justify-center md:w-full md:justify-end px-4"

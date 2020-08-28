@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Tailwindcss
 /src/styles/tailwind.css
+
+# Dummy Images
+/src/images

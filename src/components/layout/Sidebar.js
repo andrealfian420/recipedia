@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SidebarLinks from './SidebarLinks';
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleMobileMenu = () => {
@@ -10,8 +10,14 @@ const Sidebar = () => {
     setButtonClicked(userClick);
   };
 
+  const { isScroll } = props;
+
   return (
-    <div className="w-full bg-white  md:static z-10 md:z-0 md:col-span-2 md:flex md:justify-end">
+    <div
+      className={`w-full bg-white ${
+        isScroll ? 'fixed' : ''
+      }   md:static z-10 md:z-0 md:col-span-2 md:flex md:justify-end`}
+    >
       <nav className="text-right">
         <div className="flex justify-between items-center">
           {/* Page Name */}
