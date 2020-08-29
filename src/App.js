@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // Components
 import Sidebar from './components/layout/Sidebar';
 import Home from './components/pages/Home';
+import RecipeDetail from './components/recipe/RecipeDetail';
 import Footer from './components/layout/Footer';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Sidebar isScroll={isScroll} />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/recipe/:id" component={RecipeDetail} />
           </Switch>
         </div>
       </div>

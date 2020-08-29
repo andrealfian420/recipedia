@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import dummyImg from '../../images/seblak.jpg';
 
 const LatestRecipesCard = () => {
@@ -8,9 +9,9 @@ const LatestRecipesCard = () => {
       <div className="card hover:shadow-lg">
         <img src={dummyImg} alt="Dummy" className="card-img" />
         <div className="m-4">
-          <a href="!#" className="font-bold hover:underline">
+          <Link to="/recipe/1" className="font-bold hover:underline">
             Seblak Seafood
-          </a>
+          </Link>
           <span className="block text-gray-500 text-sm">
             Recipe by {''}
             <a href="!#" className="text-blue-700 hover:underline">

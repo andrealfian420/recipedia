@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SidebarLinks from './SidebarLinks';
 
 const Sidebar = (props) => {
@@ -22,9 +23,9 @@ const Sidebar = (props) => {
         <div className="flex justify-between items-center">
           {/* Page Name */}
           <h1 className="font-bold uppercase p-4 md:border-b-4 border-gray-100">
-            <a href="/" className="hover:text-gray-700">
+            <Link to="/" className="hover:text-gray-700">
               Recipedia
-            </a>
+            </Link>
           </h1>
           {/* End of Page Name */}
           {/* Menu Button */}
