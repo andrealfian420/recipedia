@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AuthLinks = (props) => {
   const { signIn, signUp } = props;
@@ -6,8 +7,8 @@ const AuthLinks = (props) => {
   return (
     <ul className="flex justify-center border-b">
       <li className="-mb-px mr-1">
-        <a
-          href="/signin"
+        <Link
+          to="/signin"
           className={`bg-white inline-block ${
             signIn
               ? 'menu-active cursor-default pointer-events-none'
@@ -15,11 +16,11 @@ const AuthLinks = (props) => {
           } rounded-t py-2 px-4 font-semibold`}
         >
           Sign In
-        </a>
+        </Link>
       </li>
       <li className="-mb-px mr-1">
-        <a
-          href="/signup"
+        <Link
+          to="/signup"
           className={`bg-white inline-block ${
             signUp
               ? 'menu-active cursor-default pointer-events-none'
@@ -27,7 +28,7 @@ const AuthLinks = (props) => {
           } rounded-t py-2 px-4 font-semibold`}
         >
           Sign Up
-        </a>
+        </Link>
       </li>
     </ul>
   );

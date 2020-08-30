@@ -11,7 +11,7 @@ const AuthLayout = ({ component: Component, ...rest }) => {
             <div className="flex flex-col justify-center items-center">
               <Component {...props} />
             </div>
-            <p className="text-center text-black text-xs -mt-10">
+            <p className="text-center text-xs my-2 md:my-0 md:-mt-10">
               Copyright Andre Ramadhan 2020
             </p>
           </div>

@@ -29,7 +29,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="rounded px-8 pt-6 my-16 pb-5 w-full max-w-lg bg-white shadow-lg">
+    <div className="rounded px-8 pt-6 my-12 pb-5 w-full max-w-lg bg-white shadow-lg">
       <AuthLinks signIn={true} />
 
       {/* Form */}
