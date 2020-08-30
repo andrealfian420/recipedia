@@ -19050,6 +19050,12 @@ video {
   border-color: rgba(255, 99, 99, var(--border-opacity));
 }
 
+.menu-active {
+  border-left-width: 1px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
 .recipe-step > * {
   margin-bottom: 0.75rem;
 }

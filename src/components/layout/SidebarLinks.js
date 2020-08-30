@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const SidebarLinks = (props) => {
   const { showMobileLinks } = props;
@@ -57,15 +58,15 @@ const SidebarLinks = (props) => {
       </li>
 
       <li className="py-2 md:hidden">
-        <a href="login.html" className="flex px-4 justify-center">
-          <span>Login</span>
-        </a>
+        <Link to="/signin" className="flex px-4 justify-center">
+          <span>Sign In</span>
+        </Link>
       </li>
 
       <li className="py-2 md:hidden">
-        <a href="signup.html" className="flex px-4 justify-center">
+        <Link to="/signup" className="flex px-4 justify-center">
           <span>Sign Up</span>
-        </a>
+        </Link>
       </li>
     </ul>
   );

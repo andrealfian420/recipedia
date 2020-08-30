@@ -1,43 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+// Layout Components
+import DefaultLayout from './components/layout/app_layout/DefaultLayout';
+import AuthLayout from './components/layout/app_layout/AuthLayout';
 
 // Components
-import Sidebar from './components/layout/Sidebar';
 import Home from './components/pages/Home';
+import SignIn from './components/auth/SignIn';
 import RecipeDetail from './components/recipe/RecipeDetail';
-import Footer from './components/layout/Footer';
 
 function App() {
-  const [isScroll, setIsScroll] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
-
-  const handleScroll = () => {
-    if (window.pageYOffset > 1) {
-      setIsScroll(true);
-    } else {
-      setIsScroll(false);
-    }
-  };
-
   return (
     <Router>
-      <div className="text-gray-600 font-body font-semibold min-h-screen flex flex-col">
-        <div className="grid grid-cols-1 md:grid-cols-12  flex-grow">
-          <Sidebar isScroll={isScroll} />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/recipe/:id" component={RecipeDetail} />
-          </Switch>
-        </div>
+      <div className="app">
+        <DefaultLayout exact path="/" component={Home} />
+        <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
+        <AuthLayout path="/signin" component={SignIn} />
+        <AuthLayout path="/signup" component={AuthLayout} />
       </div>
-      <Footer />
     </Router>
   );
 }
