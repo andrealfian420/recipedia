@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import AuthLinks from './AuthLinks';
 
 const SignIn = () => {
@@ -72,12 +73,12 @@ const SignIn = () => {
           >
             Sign In
           </button>
-          <a
-            href="!#"
+          <Link
+            to="/resetpassword"
             className="row-span-2 align-baseline mx-auto mt-3 font-bold text-blue-600 hover:text-blue-700 cursor-pointer text-base"
           >
             Forgot Password ?
-          </a>
+          </Link>
         </div>
       </form>
       {/* End of Form */}
