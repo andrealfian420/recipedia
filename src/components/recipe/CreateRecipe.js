@@ -8,10 +8,13 @@ const CreateRecipe = () => {
     document.title = 'Create Recipe';
   });
 
-  const [isImageExist, setIsImageExist] = useState(false);
+  const [title, setTitle] = useState(null);
   const [image, setImage] = useState(null);
+  const [isImageExist, setIsImageExist] = useState(false);
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
+  const [durationNumber, setDurationNumber] = useState('');
+  const [durationUnit, setDurationUnit] = useState('');
 
   const reInputFile = useRef(null);
 
@@ -23,6 +26,10 @@ const CreateRecipe = () => {
     ],
   };
   const formats = ['bold', 'italic', 'underline', 'list', 'size'];
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
 
   const handleInputFile = (e) => {
     e.preventDefault();
@@ -45,11 +52,47 @@ const CreateRecipe = () => {
     setInstructions(InstructionsInput);
   };
 
+  const handleDurationNumberChange = (e) => {
+    const rules = /^[0-9\b]+$/;
+    if (e.target.value === '' || rules.test(e.target.value)) {
+      setDurationNumber(e.target.value);
+    } else {
+      e.target.value = '';
+      return alert('please only input number');
+    }
+  };
+
+  const handleDurationUnitChange = (e) => {
+    const durationUnit = e.target.value;
+
+    if (durationUnit !== '') {
+      return setDurationUnit(durationUnit);
+    } else {
+      return false;
+    }
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const recipeData = { image, ingredients, instructions };
 
-    console.log(recipeData);
+    const recipeData = {
+      title,
+      image,
+      ingredients,
+      instructions,
+      durationNumber,
+      durationUnit,
+    };
+
+    const isDataNotExist = Object.values(recipeData).some(
+      (items) => items === '' || items === null
+    );
+
+    if (isDataNotExist) {
+      return alert('ada data yg masih kosong');
+    }
+
+    return console.log(recipeData);
   };
 
   return (
@@ -64,6 +107,18 @@ const CreateRecipe = () => {
 
       <form className="mt-5" onSubmit={handleFormSubmit}>
         <div className="mb-3 flex flex-col items-center justify-center md:block">
+          <h5 className="text-xl w-48 text-center md:text-left font-semibold border-b-2 border-gray-500 mb-4">
+            Recipe Title
+          </h5>
+
+          <input
+            type="text"
+            className="shadow apperance-none border rounded w-6/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            onChange={handleTitleChange}
+            placeholder="Write a perfect name for your recipe..."
+          ></input>
+        </div>
+        <div className="my-3 flex flex-col items-center justify-center md:block">
           <h5 className="text-xl w-48 text-center md:text-left font-semibold border-b-2 border-gray-500 mb-4">
             Recipe Image
           </h5>
@@ -137,6 +192,27 @@ const CreateRecipe = () => {
               value={instructions}
               onChange={handleInstructionsChange}
             />
+          </div>
+        </div>
+        <div className="my-5 flex flex-col items-center justify-center md:block">
+          <h5 className="text-xl w-48 text-center md:text-left font-semibold border-b-2 border-gray-500 mb-4">
+            Recipe Durations
+          </h5>
+
+          <div className="flex flex-row items-center">
+            <input
+              className="shadow apperance-none border rounded w-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleDurationNumberChange}
+              placeholder="Num"
+            ></input>
+            <select
+              className="ml-3 block appearance-none w-auto bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleDurationUnitChange}
+            >
+              <option>--Select unit of time--</option>
+              <option value="mins">Mins</option>
+              <option value="hours">Hours</option>
+            </select>
           </div>
         </div>
 
