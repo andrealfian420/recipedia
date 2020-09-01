@@ -29,11 +29,9 @@ function DefaultLayout({ component: Component, ...rest }) {
       {...rest}
       render={(props) => (
         <div>
-          <div className="text-gray-600 font-body font-semibold min-h-screen flex flex-col">
-            <div className="grid grid-cols-1 md:grid-cols-12  flex-grow">
-              <Sidebar isScroll={isScroll} />
-              <Component {...props} />
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 flex-grow min-h-screen">
+            <Sidebar isScroll={isScroll} />
+            <Component {...props} />
           </div>
           <Footer />
         </div>
