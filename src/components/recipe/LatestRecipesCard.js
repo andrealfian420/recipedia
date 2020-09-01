@@ -4,7 +4,7 @@ import dummyImg from '../../images/seblak.jpg';
 
 const LatestRecipesCard = () => {
   return (
-    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-5">
+    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-5">
       {/* Card */}
       <div className="card hover:shadow-lg">
         <img src={dummyImg} alt="Dummy" className="card-img" />
