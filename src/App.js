@@ -9,8 +9,9 @@ import AuthLayout from './components/layout/app_layout/AuthLayout';
 import Home from './components/pages/Home';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
-import ForgotPassword from './components/auth/ForgotPassword'
+import ForgotPassword from './components/auth/ForgotPassword';
 import RecipeDetail from './components/recipe/RecipeDetail';
+import CreateRecipe from './components/recipe/CreateRecipe';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <div className="app">
         <DefaultLayout exact path="/" component={Home} />
         <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
+        <DefaultLayout path="/createrecipe" component={CreateRecipe} />
         <AuthLayout path="/signin" component={SignIn} />
         <AuthLayout path="/signup" component={SignUp} />
         <AuthLayout path="/resetpassword" component={ForgotPassword} />
