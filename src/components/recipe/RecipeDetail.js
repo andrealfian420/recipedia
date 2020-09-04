@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RecipeDetailHeader from '../layout/RecipeDetailHeader';
-import SignOutLinks from '../layout/SignOutLinks';
-// import UserProfileNavbar from '../layout/UserProfileNavbar';
+import UserProfileNavbar from '../layout/UserProfileNavbar';
 import { Link } from 'react-router-dom';
 import dummyImg from '../../images/seblak.jpg';
 
@@ -18,7 +17,7 @@ const RecipeDetail = () => {
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
-      <SignOutLinks />
+      <UserProfileNavbar />
       <RecipeDetailHeader />
 
       <div className="py-2 overflow-hidden">

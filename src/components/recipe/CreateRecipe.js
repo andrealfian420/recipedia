@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import SignOutLinks from '../layout/SignOutLinks';
+import UserProfileNavbar from '../layout/UserProfileNavbar';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -97,7 +97,7 @@ const CreateRecipe = () => {
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
-      <SignOutLinks />
+      <UserProfileNavbar />
 
       <header>
         <h2 className="text-gray-700 border-b-4 border-gray-300 text-center md:text-left text-4xl font-semibold">
