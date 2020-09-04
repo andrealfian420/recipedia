@@ -17,7 +17,7 @@ const Sidebar = (props) => {
     <div
       className={`w-full bg-white ${
         isScroll ? 'fixed' : ''
-      }   md:static z-10 md:z-0 md:col-span-2 md:flex md:justify-end`}
+      } md:static z-10 md:z-0 md:col-span-2 md:flex md:justify-end`}
     >
       <nav className="text-right">
         <div className="flex justify-between items-center">
