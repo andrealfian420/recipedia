@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const UserProfileNavbarLinks = (props) => {
   const { showLinks } = props;
@@ -9,18 +10,18 @@ const UserProfileNavbarLinks = (props) => {
           !showLinks ? 'hidden' : ''
         } rounded-lg bg-white py-2 w-40 shadow-xl`}
       >
-        <a
-          href="!#"
+        <Link
+          to="!#"
           className="block text-center border-b-2 border-gray-300 px-2 py-1 text-gray-600 hover:text-white hover:bg-primary"
         >
           Profile
-        </a>
-        <a
-          href="!#"
+        </Link>
+        <Link
+          to="/createrecipe"
           className="block text-center border-b-2 border-gray-300 px-2 py-1 text-gray-600 hover:text-white hover:bg-primary"
         >
           Make a Recipe
-        </a>
+        </Link>
         <a
           href="!#"
           className="block text-center px-2 py-1 text-gray-600 hover:text-white hover:bg-primary"
