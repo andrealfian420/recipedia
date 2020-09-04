@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const UserProfileNavbarLinks = (props) => {
   const { showLinks } = props;
   return (
-    <div className="absolute right-0 hidden mt-2 md:flex flex-row md:justify-end items-center">
+    <div className="absolute right-0 z-10 hidden mt-2 md:flex flex-row md:justify-end items-center">
       <div
         className={`${
           !showLinks ? 'hidden' : ''

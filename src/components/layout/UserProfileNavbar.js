@@ -27,7 +27,7 @@ const UserProfileNavbar = () => {
       <UserProfileNavbarLinks showLinks={showLinks} />
       {showLinks ? (
         <div
-          className="fixed top-0 right-0 bottom-0 left-0 z-10"
+          className="fixed top-0 right-0 bottom-0 left-0"
           onClick={handleClickOnBlur}
         ></div>
       ) : null}
