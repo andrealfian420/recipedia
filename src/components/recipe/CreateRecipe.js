@@ -4,12 +4,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const CreateRecipe = () => {
-  useEffect(() => {
-    document.title = 'Create Recipe';
-  });
-
   const [title, setTitle] = useState(null);
   const [image, setImage] = useState(null);
+  const [imageTempURL, setImageTempURL] = useState(null);
   const [isImageExist, setIsImageExist] = useState(false);
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
@@ -17,6 +14,12 @@ const CreateRecipe = () => {
   const [durationUnit, setDurationUnit] = useState('');
 
   const reInputFile = useRef(null);
+
+  useEffect(() => {
+    document.title = 'Create Recipe';
+
+    image && URL.revokeObjectURL(image);
+  }, [image]);
 
   const modules = {
     toolbar: [
@@ -36,7 +39,8 @@ const CreateRecipe = () => {
 
     const inputtedImage = e.target.files[0] ?? image;
 
-    setImage(URL.createObjectURL(inputtedImage));
+    setImage(inputtedImage);
+    setImageTempURL(URL.createObjectURL(inputtedImage));
     setIsImageExist(true);
   };
 
@@ -113,7 +117,7 @@ const CreateRecipe = () => {
 
           <input
             type="text"
-            className="shadow apperance-none border rounded w-6/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow apperance-none border rounded w-full sm:w-3/4 lg:w-6/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={handleTitleChange}
             placeholder="Write a perfect name for your recipe..."
           ></input>
@@ -145,7 +149,7 @@ const CreateRecipe = () => {
           ) : (
             <div>
               <img
-                src={image}
+                src={imageTempURL}
                 alt=""
                 className="w-full md:w-6/12 h-64 mt-2 cursor-pointer object-cover rounded-md border-4 border-gray-300 outline-none"
                 onClick={handleReInputFile}
