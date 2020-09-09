@@ -8,6 +8,7 @@ import AuthLayout from './components/layout/app_layout/AuthLayout';
 // Components
 import Home from './components/pages/Home';
 import Profile from './components/user/Profile';
+import ProfileInfo from './components/user/ProfileInfo';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import ForgotPassword from './components/auth/ForgotPassword';
@@ -22,6 +23,7 @@ function App() {
         <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
         <DefaultLayout path="/createrecipe" component={CreateRecipe} />
         <DefaultLayout path="/profile" component={Profile} />
+        <DefaultLayout path="/profileinfo" component={ProfileInfo} />
         <AuthLayout path="/signin" component={SignIn} />
         <AuthLayout path="/signup" component={SignUp} />
         <AuthLayout path="/resetpassword" component={ForgotPassword} />
