@@ -26,7 +26,7 @@ const SidebarLinks = (props) => {
       </NavLink>
 
       <NavLink
-        to="!#"
+        to="/about"
         className="flex px-4 justify-center md:justify-end md:items-center py-2 border-r-4 border-white"
       >
         <span>About</span>

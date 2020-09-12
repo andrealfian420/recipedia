@@ -7,6 +7,7 @@ import AuthLayout from './components/layout/app_layout/AuthLayout';
 
 // Components
 import Home from './components/pages/Home';
+import About from './components/pages/About';
 import Profile from './components/user/Profile';
 import ProfileInfo from './components/user/ProfileInfo';
 import SignIn from './components/auth/SignIn';
@@ -20,6 +21,7 @@ function App() {
     <Router>
       <div className="app">
         <DefaultLayout exact path="/" component={Home} />
+        <DefaultLayout path="/about" component={About} />
         <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
         <DefaultLayout path="/createrecipe" component={CreateRecipe} />
         <DefaultLayout path="/profile" component={Profile} />
