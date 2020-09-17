@@ -5,6 +5,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import DefaultLayout from './components/layout/app_layout/DefaultLayout';
 import AuthLayout from './components/layout/app_layout/AuthLayout';
 
+// Routes
+import ProtectedRoute from './components/routes/ProtectedRoute';
+
 // Components
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -23,9 +26,17 @@ function App() {
         <DefaultLayout exact path="/" component={Home} />
         <DefaultLayout path="/about" component={About} />
         <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
-        <DefaultLayout path="/createrecipe" component={CreateRecipe} />
+        <ProtectedRoute
+          path="/createrecipe"
+          layout={DefaultLayout}
+          component={CreateRecipe}
+        />
         <DefaultLayout path="/profile" component={Profile} />
-        <DefaultLayout path="/profileinfo" component={ProfileInfo} />
+        <ProtectedRoute
+          path="/profileinfo"
+          layout={AuthLayout}
+          component={ProfileInfo}
+        />
         <AuthLayout path="/signin" component={SignIn} />
         <AuthLayout path="/signup" component={SignUp} />
         <AuthLayout path="/resetpassword" component={ForgotPassword} />
