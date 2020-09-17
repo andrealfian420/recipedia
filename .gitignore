@@ -27,3 +27,6 @@ yarn-error.log*
 
 # Dummy Images
 /src/images
+
+# Config files
+/src/config/
