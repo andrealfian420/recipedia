@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Route } from 'react-router-dom';
 
 // Components
 import Sidebar from '../Sidebar';
@@ -25,18 +24,13 @@ function DefaultLayout({ component: Component, ...rest }) {
   };
 
   return (
-    <Route
-      {...rest}
-      render={(props) => (
-        <div>
-          <div className="grid grid-cols-1 md:grid-cols-12 flex-grow min-h-screen">
-            <Sidebar isScroll={isScroll} />
-            <Component {...props} />
-          </div>
-          <Footer />
-        </div>
-      )}
-    />
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-12 flex-grow min-h-screen">
+        <Sidebar isScroll={isScroll} />
+        <Component {...rest} />
+      </div>
+      <Footer />
+    </div>
   );
 }
 

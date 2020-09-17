@@ -7,6 +7,7 @@ import AuthLayout from './components/layout/app_layout/AuthLayout';
 
 // Routes
 import ProtectedRoute from './components/routes/ProtectedRoute';
+import PublicRoute from './components/routes/PublicRoute';
 
 // Components
 import Home from './components/pages/Home';
@@ -23,23 +24,46 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <DefaultLayout exact path="/" component={Home} />
-        <DefaultLayout path="/about" component={About} />
-        <DefaultLayout path="/recipe/:id" component={RecipeDetail} />
+        <PublicRoute exact path="/" layout={DefaultLayout} component={Home} />
+        <PublicRoute path="/about" layout={DefaultLayout} component={About} />
+        <PublicRoute
+          path="/recipe/:id"
+          layout={DefaultLayout}
+          component={RecipeDetail}
+        />
         <ProtectedRoute
           path="/createrecipe"
           layout={DefaultLayout}
           component={CreateRecipe}
         />
-        <DefaultLayout path="/profile" component={Profile} />
+        <PublicRoute
+          path="/profile"
+          layout={DefaultLayout}
+          component={Profile}
+        />
         <ProtectedRoute
           path="/profileinfo"
           layout={AuthLayout}
           component={ProfileInfo}
         />
-        <AuthLayout path="/signin" component={SignIn} />
-        <AuthLayout path="/signup" component={SignUp} />
-        <AuthLayout path="/resetpassword" component={ForgotPassword} />
+        <PublicRoute
+          path="/signin"
+          layout={AuthLayout}
+          component={SignIn}
+          isAuthComponent={true}
+        />
+        <PublicRoute
+          path="/signup"
+          layout={AuthLayout}
+          component={SignUp}
+          isAuthComponent={true}
+        />
+        <PublicRoute
+          path="/resetpassword"
+          layout={AuthLayout}
+          component={ForgotPassword}
+          isAuthComponent={true}
+        />
       </div>
     </Router>
   );
