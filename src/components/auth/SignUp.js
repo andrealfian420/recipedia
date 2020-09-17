@@ -51,7 +51,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="rounded px-8 pt-6 my-5 md:my-12 md:pb-5 w-full max-w-lg h-full bg-white shadow-lg">
+    <div className="rounded px-8 pt-6 my-5 md:my-12 w-full max-w-lg h-full bg-white shadow-lg">
       <AuthLinks signUp={true} />
 
       {/* Form */}
