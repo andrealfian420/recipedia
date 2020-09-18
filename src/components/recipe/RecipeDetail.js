@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import RecipeDetailHeader from '../layout/RecipeDetailHeader';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
-import { Link } from 'react-router-dom';
+import SignOutLinks from '../layout/SignOutLinks';
 import dummyImg from '../../images/seblak.jpg';
 
-const RecipeDetail = () => {
+const RecipeDetail = (props) => {
   useEffect(() => {
     document.title = 'Recipe Detail';
   });
@@ -15,9 +17,11 @@ const RecipeDetail = () => {
     setStarClicked(!starClicked);
   };
 
+  const { auth } = props;
+
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
-      <UserProfileNavbar />
+      {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
       <RecipeDetailHeader />
 
       <div className="py-2 overflow-hidden">
@@ -85,4 +89,10 @@ const RecipeDetail = () => {
   );
 };
 
-export default RecipeDetail;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
+
+export default connect(mapStateToProps)(RecipeDetail);
