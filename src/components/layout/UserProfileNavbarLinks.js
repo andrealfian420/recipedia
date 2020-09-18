@@ -1,8 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signOut } from '../../store/actions/authActions';
 
 const UserProfileNavbarLinks = (props) => {
-  const { showLinks } = props;
+  const { showLinks, signOut } = props;
+
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <div className="absolute right-0 z-10 hidden mt-2 md:flex flex-row md:justify-end items-center">
       <div
@@ -22,15 +29,21 @@ const UserProfileNavbarLinks = (props) => {
         >
           Make a Recipe
         </Link>
-        <a
-          href="!#"
-          className="block text-center px-2 py-1 text-gray-600 hover:text-white hover:bg-primary"
+        <span
+          className="block text-center px-2 py-1 text-gray-600 cursor-pointer hover:text-white hover:bg-primary"
+          onClick={handleSignOut}
         >
           Logout
-        </a>
+        </span>
       </div>
     </div>
   );
 };
 
-export default UserProfileNavbarLinks;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(UserProfileNavbarLinks);

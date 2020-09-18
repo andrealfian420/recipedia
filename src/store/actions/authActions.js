@@ -1,3 +1,5 @@
+import { actionTypes } from 'redux-firestore';
+
 export const signUp = (newUser) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
@@ -24,5 +26,36 @@ export const signUp = (newUser) => {
           });
       })
       .catch((err) => dispatch({ type: 'SIGNUP_ERROR', error: err.message }));
+  };
+};
+
+export const signIn = (userData) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const { email, password } = userData;
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        dispatch({ type: 'SIGNIN_SUCCESS' });
+      })
+      .catch((err) => {
+        dispatch({ type: 'SIGNIN_ERROR', error: err.message });
+      });
+  };
+};
+
+export const signOut = () => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch({ type: 'LOGOUT_SUCCESS' });
+        dispatch({ type: actionTypes.CLEAR_DATA });
+      });
   };
 };

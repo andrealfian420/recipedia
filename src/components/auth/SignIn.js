@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signIn } from '../../store/actions/authActions';
 import AuthLinks from './AuthLinks';
 
-const SignIn = () => {
-  useEffect(() => {
-    document.title = 'Sign In';
-  });
-
+const SignIn = (props) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const { signIn, errorMessage, cleanUpErrorMessage } = props;
+
+  useEffect(() => {
+    document.title = 'Sign In';
+    cleanUpErrorMessage();
+  }, [cleanUpErrorMessage]);
 
   const handleEmailChange = (e) => {
     return setEmail(e.target.value);
@@ -26,7 +30,7 @@ const SignIn = () => {
       password,
     };
 
-    console.log(userData);
+    signIn(userData);
   };
 
   return (
@@ -66,6 +70,10 @@ const SignIn = () => {
           />
         </div>
 
+        {errorMessage ? (
+          <p className="text-center text-red-600">{errorMessage}</p>
+        ) : null}
+
         <div className="grid grid-rows-4 grid-flow-row min-w-full">
           <button
             type="submit"
@@ -86,4 +94,18 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapStateToProps = (state) => {
+  console.log(state.auth);
+  return {
+    errorMessage: state.auth.errorMessage,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (userData) => dispatch(signIn(userData)),
+    cleanUpErrorMessage: () => dispatch({ type: 'CLEANUP_ERROR_MESSAGE' }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
