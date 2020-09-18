@@ -18,7 +18,7 @@ const UserProfileNavbarLinks = (props) => {
         } rounded-lg bg-white py-2 w-40 shadow-xl`}
       >
         <Link
-          to="/profile"
+          to="/myprofile"
           className="block text-center border-b-2 border-gray-300 px-2 py-1 text-gray-600 hover:text-white hover:bg-primary"
         >
           Profile

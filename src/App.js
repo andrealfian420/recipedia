@@ -36,8 +36,8 @@ function App() {
           layout={DefaultLayout}
           component={CreateRecipe}
         />
-        <PublicRoute
-          path="/profile"
+        <ProtectedRoute
+          path="/myprofile"
           layout={DefaultLayout}
           component={Profile}
         />
