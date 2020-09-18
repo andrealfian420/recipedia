@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signUp } from '../../store/actions/authActions';
 import AuthLinks from './AuthLinks';
 
-const SignUp = () => {
+const SignUp = (props) => {
   useEffect(() => {
     document.title = 'Sign Up';
   });
+
+  const { signUp } = props;
 
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -44,10 +48,10 @@ const SignUp = () => {
     };
 
     if (userData.password !== confirmPassword) {
-      return console.log('Password Beda');
+      return alert('Password Beda');
     }
 
-    console.log(userData);
+    signUp(userData);
   };
 
   return (
@@ -160,4 +164,10 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (newUser) => dispatch(signUp(newUser)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);
