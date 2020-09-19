@@ -17,9 +17,10 @@ export const signUp = (newUser) => {
           .set({
             firstName: firstName,
             lastName: lastName,
+            email: res.user.email,
             joinedAt: new Date(),
             profileImageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/recipedia-34b77.appspot.com/o/man.png?alt=media&token=bff258f3-9dbe-4a72-803a-c0611390bacf',
+              'https://firebasestorage.googleapis.com/v0/b/recipedia-34b77.appspot.com/o/default-user.png?alt=media&token=7ca7e426-b72a-4e33-84c8-a273f809207e',
           })
           .then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS' });
