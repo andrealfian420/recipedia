@@ -43,7 +43,7 @@ function App() {
         />
         <ProtectedRoute
           path="/profileinfo"
-          layout={AuthLayout}
+          layout={DefaultLayout}
           component={ProfileInfo}
         />
         <PublicRoute
