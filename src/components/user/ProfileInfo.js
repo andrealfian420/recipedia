@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
-import dummyPic from '../../images/profpic.jpg';
 
 const ProfileInfo = (props) => {
   useEffect(() => {
@@ -12,15 +11,7 @@ const ProfileInfo = (props) => {
   const [imageTempURL, setImageTempURL] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
-  const [oldPassword, setOldPassword] = useState(null);
-  const [newPassword, setNewPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
   const imageInput = useRef();
-
-  // Dummy data, will be removed later on
-  const dummyFirstName = 'Timo';
-  const dummyLastName = 'Werner';
-  const dummyEmail = 'timo@werner.com';
 
   const handleInputClick = () => {
     return imageInput.current.click();
@@ -43,29 +34,12 @@ const ProfileInfo = (props) => {
     setLastName(e.target.value);
   };
 
-  const handleOldPasswordChange = (e) => {
-    setOldPassword(e.target.value);
-  };
-
-  const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      firstName,
-      lastName,
-      oldPassword,
-      newPassword,
-      confirmPassword,
-    };
-
-    return console.log(data);
+    // const newData = {
+    //   firstName,
+    //   lastName,
+    // };
   };
 
   if (!profile) {
@@ -145,51 +119,6 @@ const ProfileInfo = (props) => {
               placeholder="Write your last name here..."
               defaultValue={lastName ?? profile.lastName}
               onChange={handleLastNameChange}
-            />
-          </div>
-          <div className="flex flex-col px-4 mt-6">
-            <label
-              htmlFor="oldPassword"
-              className="inline-block mb-1 md:mb-0 text-center md:text-left text-xl font-semibold"
-            >
-              Old Password
-            </label>
-            <input
-              type="password"
-              id="oldPassword"
-              className="shadow appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Write your old password here..."
-              onChange={handleOldPasswordChange}
-            />
-          </div>
-          <div className="flex flex-col px-4 mt-3">
-            <label
-              htmlFor="newPassword"
-              className="inline-block mb-1 md:mb-0 text-center md:text-left text-xl font-semibold"
-            >
-              New Password
-            </label>
-            <input
-              type="password"
-              id="newPassword"
-              className="shadow appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Write your new password here..."
-              onChange={handleNewPasswordChange}
-            />
-          </div>
-          <div className="flex flex-col px-4 mt-3">
-            <label
-              htmlFor="confirmPassword"
-              className="inline-block mb-1 md:mb-0 text-center md:text-left text-xl font-semibold"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className="shadow appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Write your confirm password here..."
-              onChange={handleConfirmPasswordChange}
             />
           </div>
 
