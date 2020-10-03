@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import dummyPic from '../../images/profpic.jpg';
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
   useEffect(() => {
     document.title = 'Edit Profile Info';
   });
 
+  const { profile } = props;
   const [imageTempURL, setImageTempURL] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -66,20 +68,24 @@ const ProfileInfo = () => {
     return console.log(data);
   };
 
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
       <UserProfileNavbar />
 
       <div className="w-full md:w-3/4 py-4 px-2 md:mx-auto bg-white shadow-md md:shadow-lg rounded mt-4 md:mt-8">
         <form className="p-2" onSubmit={handleFormSubmit}>
-          <div className="relative flex justify-center">
+          <div className="relative rounded-full w-64 h-64 mx-auto overflow-hidden">
             <img
-              src={imageTempURL ?? dummyPic}
+              src={imageTempURL ?? profile.profileImageUrl}
               alt="Profile"
-              className="object-cover w-64 h-64 rounded-md border-2 border-white"
+              className="object-cover rounded-full border-2 border-white"
             />
             <span
-              className="absolute w-64 h-12 py-3 rounded-sm text-center bg-black text-white opacity-50 hover:opacity-75 cursor-pointer"
+              className="absolute w-full  py-3 rounded-sm text-center bg-black text-white opacity-50 hover:opacity-75 cursor-pointer"
               style={{ top: '80%' }}
               onClick={handleInputClick}
             >
@@ -105,7 +111,7 @@ const ProfileInfo = () => {
               id="email"
               className="shadow bg-gray-300 opacity-75 appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Write your first name here..."
-              value={dummyEmail}
+              value={profile.email}
               disabled
             />
           </div>
@@ -121,7 +127,7 @@ const ProfileInfo = () => {
               id="firstName"
               className="shadow appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Write your first name here..."
-              defaultValue={firstName ?? dummyFirstName}
+              defaultValue={firstName ?? profile.firstName}
               onChange={handleFirstNameChange}
             />
           </div>
@@ -137,7 +143,7 @@ const ProfileInfo = () => {
               id="lastName"
               className="shadow appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Write your last name here..."
-              defaultValue={lastName ?? dummyLastName}
+              defaultValue={lastName ?? profile.lastName}
               onChange={handleLastNameChange}
             />
           </div>
@@ -201,4 +207,10 @@ const ProfileInfo = () => {
   );
 };
 
-export default ProfileInfo;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.firebase.profile,
+  };
+};
+
+export default connect(mapStateToProps)(ProfileInfo);
