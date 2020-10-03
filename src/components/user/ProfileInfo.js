@@ -85,7 +85,7 @@ const ProfileInfo = (props) => {
               id="email"
               className="shadow bg-gray-300 opacity-75 appearance-none border rounded w-full md:w-3/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Write your first name here..."
-              value={profile.email}
+              value={profile.email ?? ''}
               disabled
             />
           </div>
