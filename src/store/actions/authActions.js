@@ -99,3 +99,16 @@ export const updateProfile = (userId, newData) => {
       .catch((err) => console.log(err));
   };
 };
+
+export const uploadNewProfilePic = (fileName, profilePic) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const storage = getFirebase().storage();
+    const storageRef = storage.ref(`images/${fileName}`);
+
+    storageRef.put(profilePic).then(() => {
+      storageRef.getDownloadURL().then((newImageURL) => {
+        dispatch({ type: 'SUCCESS_UPLOAD_NEW_IMAGE', newImageURL });
+      });
+    });
+  };
+};
