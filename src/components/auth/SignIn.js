@@ -95,7 +95,6 @@ const SignIn = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.auth);
   return {
     errorMessage: state.auth.errorMessage,
   };
