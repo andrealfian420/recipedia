@@ -73,7 +73,7 @@ const ProfileInfo = (props) => {
             <img
               src={imageTempURL ?? profile.profileImageUrl}
               alt="Profile"
-              className="object-cover rounded-full border-2 border-white"
+              className="object-cover w-full h-full"
             />
             <span
               className="absolute w-full  py-3 rounded-sm text-center bg-black text-white opacity-50 hover:opacity-75 cursor-pointer"
