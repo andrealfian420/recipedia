@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
+import { updateProfile } from '../../store/actions/authActions';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 
 const ProfileInfo = (props) => {
   useEffect(() => {
     document.title = 'Edit Profile Info';
-  });
+    props.cleanupUpdateMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const { profile } = props;
+  const { profile, userId, updateProfile, successUpdateProfile } = props;
   const [imageTempURL, setImageTempURL] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -36,10 +39,12 @@ const ProfileInfo = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // const newData = {
-    //   firstName,
-    //   lastName,
-    // };
+    const newData = {
+      firstName: firstName ?? profile.firstName,
+      lastName: lastName ?? profile.lastName,
+    };
+
+    return updateProfile(userId, newData);
   };
 
   if (!profile) {
@@ -122,7 +127,12 @@ const ProfileInfo = (props) => {
             />
           </div>
 
-          <div className="flex justify-center items-center mt-8">
+          <div className="flex flex-col justify-center items-center mt-4">
+            {successUpdateProfile ? (
+              <span className="text-lg font-semibold my-2 text-green-500">
+                Your profile has been updated !
+              </span>
+            ) : null}
             <button
               type="submit"
               className="w-48 py-2 text-lg text-white rounded bg-blue-500 hover:bg-blue-700 transition duration-500 ease-out"
@@ -139,7 +149,17 @@ const ProfileInfo = (props) => {
 const mapStateToProps = (state) => {
   return {
     profile: state.firebase.profile,
+    userId: state.firebase.auth.uid,
+    successUpdateProfile: state.auth.successUpdateProfile,
   };
 };
 
-export default connect(mapStateToProps)(ProfileInfo);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProfile: (userId, newData) =>
+      dispatch(updateProfile(userId, newData)),
+    cleanupUpdateMessage: () => dispatch({ type: 'CLEANUP_UPDATE_MESSAGE' }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfo);

@@ -1,5 +1,6 @@
 const initState = {
   errorMessage: null,
+  successUpdateProfile: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -17,6 +18,18 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         errorMessage: action.error,
+      };
+
+    case 'UPDATE_PROFILE_SUCCESS':
+      return {
+        ...state,
+        successUpdateProfile: true,
+      };
+
+    case 'CLEANUP_UPDATE_MESSAGE':
+      return {
+        ...state,
+        successUpdateProfile: false,
       };
 
     case 'CLEANUP_ERROR_MESSAGE':

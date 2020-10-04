@@ -60,3 +60,42 @@ export const signOut = () => {
       });
   };
 };
+
+export const updatePassword = (userData, newPassword) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+    const credential = firebase.auth.EmailAuthProvider.credential(
+      userData.email,
+      userData.oldPassword
+    );
+
+    // To be completed later on
+    user
+      .reauthenticateWithCredential(credential)
+      .then((res) => {
+        // old password ok
+        user
+          .updatePassword(newPassword)
+          .then((res) => console.log('password updated'))
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => {
+        // old password is wrong
+        console.log('Password lama salah');
+      });
+  };
+};
+
+export const updateProfile = (userId, newData) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+
+    firestore
+      .collection('users')
+      .doc(userId)
+      .update(newData)
+      .then(() => dispatch({ type: 'UPDATE_PROFILE_SUCCESS' }))
+      .catch((err) => console.log(err));
+  };
+};
