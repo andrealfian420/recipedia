@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
-import {
-  updateProfile,
-  uploadNewProfilePic,
-} from '../../store/actions/authActions';
+import { updateProfile } from '../../store/actions/authActions';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 
 const ProfileInfo = (props) => {
@@ -14,17 +11,11 @@ const ProfileInfo = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {
-    profile,
-    userId,
-    newProfileImageURL,
-    updateProfile,
-    uploadNewProfilePic,
-    successUpdateProfile,
-  } = props;
+  const { profile, userId, updateProfile, successUpdateProfile } = props;
   const [imageTempURL, setImageTempURL] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
+  const [newProfileImage, setNewProfileImage] = useState(null);
   const imageInput = useRef();
 
   const handleInputClick = () => {
@@ -34,10 +25,15 @@ const ProfileInfo = (props) => {
   const handleImageInput = (e) => {
     const inputtedImage = e.target.files[0];
     const timeStamp = new Date().getTime();
-    const fileName = `${profile.firstName}${profile.lastName}${timeStamp}`;
+    const fileName = `${profile.firstName}-${profile.lastName}-${timeStamp}`;
     setImageTempURL(URL.createObjectURL(inputtedImage));
 
-    return uploadNewProfilePic(fileName, inputtedImage);
+    const image = {
+      fileName,
+      image: inputtedImage,
+    };
+
+    return setNewProfileImage(image);
   };
 
   const handleFirstNameChange = (e) => {
@@ -51,7 +47,7 @@ const ProfileInfo = (props) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const newData = {
-      profileImageUrl: newProfileImageURL ?? profile.profileImageUrl,
+      newProfileImage: newProfileImage,
       firstName: firstName ?? profile.firstName,
       lastName: lastName ?? profile.lastName,
     };
@@ -162,7 +158,6 @@ const mapStateToProps = (state) => {
   return {
     profile: state.firebase.profile,
     userId: state.firebase.auth.uid,
-    newProfileImageURL: state.auth.newProfileImageURL,
     successUpdateProfile: state.auth.successUpdateProfile,
   };
 };
@@ -171,8 +166,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateProfile: (userId, newData) =>
       dispatch(updateProfile(userId, newData)),
-    uploadNewProfilePic: (fileName, profilePic) =>
-      dispatch(uploadNewProfilePic(fileName, profilePic)),
     cleanupUpdateMessage: () => dispatch({ type: 'CLEANUP_UPDATE_MESSAGE' }),
     cleanupNewImageUrl: () => dispatch({ type: 'CLEANUP_NEW_IMAGE_URL' }),
   };

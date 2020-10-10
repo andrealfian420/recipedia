@@ -90,24 +90,35 @@ export const updatePassword = (userData, newPassword) => {
 export const updateProfile = (userId, newData) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const { newProfileImage } = newData;
 
-    firestore
-      .collection('users')
-      .doc(userId)
-      .update(newData)
-      .then(() => dispatch({ type: 'UPDATE_PROFILE_SUCCESS' }))
-      .catch((err) => console.log(err));
-  };
-};
+    // if user doesn't upload new profile pic
+    if (!newProfileImage) {
+      return firestore
+        .collection('users')
+        .doc(userId)
+        .update({ firstName: newData.firstName, lastName: newData.lastName })
+        .then(() => dispatch({ type: 'UPDATE_PROFILE_SUCCESS' }))
+        .catch((err) => console.log(err));
+    }
 
-export const uploadNewProfilePic = (fileName, profilePic) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
     const storage = getFirebase().storage();
-    const storageRef = storage.ref(`images/${fileName}`);
+    const storageRef = storage.ref(`images/${newProfileImage.fileName}`);
 
-    storageRef.put(profilePic).then(() => {
+    storageRef.put(newProfileImage.image).then(() => {
+      // Get the URL from the uploaded image
       storageRef.getDownloadURL().then((newImageURL) => {
-        dispatch({ type: 'SUCCESS_UPLOAD_NEW_IMAGE', newImageURL });
+        // update the profile
+        firestore
+          .collection('users')
+          .doc(userId)
+          .update({
+            firstName: newData.firstName,
+            lastName: newData.lastName,
+            profileImageUrl: newImageURL,
+          })
+          .then(() => dispatch({ type: 'UPDATE_PROFILE_SUCCESS' }))
+          .catch((err) => console.log(err));
       });
     });
   };
