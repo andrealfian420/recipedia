@@ -26,6 +26,18 @@ const authReducer = (state = initState, action) => {
         successUpdateProfile: true,
       };
 
+    case 'ERROR_IMAGE_SIZE_TOO_BIG':
+      return {
+        ...state,
+        errorMessage: action.message,
+      };
+
+    case 'ERROR_INVALID_FILETYPE':
+      return {
+        ...state,
+        errorMessage: action.message,
+      };
+
     case 'CLEANUP_UPDATE_MESSAGE':
       return {
         ...state,

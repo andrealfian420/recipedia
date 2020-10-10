@@ -4,7 +4,13 @@ import { v4 as uuid } from 'uuid';
 import { updateProfile } from '../../store/actions/authActions';
 
 const UpdateProfile = (props) => {
-  const { profile, userId, updateProfile, successUpdateProfile } = props;
+  const {
+    profile,
+    userId,
+    updateProfile,
+    successUpdateProfile,
+    errorMessage,
+  } = props;
   const [imageTempURL, setImageTempURL] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -126,6 +132,11 @@ const UpdateProfile = (props) => {
               Your profile has been updated !
             </span>
           ) : null}
+          {errorMessage ? (
+            <span className="text-lg font-semibold my-2 text-red-700">
+              {errorMessage}
+            </span>
+          ) : null}
           <button
             type="submit"
             className="w-48 py-2 text-lg text-white rounded bg-blue-500 hover:bg-blue-700 transition duration-500 ease-out"
@@ -143,6 +154,7 @@ const mapStateToProps = (state) => {
     profile: state.firebase.profile,
     userId: state.firebase.auth.uid,
     successUpdateProfile: state.auth.successUpdateProfile,
+    errorMessage: state.auth.errorMessage,
   };
 };
 

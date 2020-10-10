@@ -104,22 +104,49 @@ export const updateProfile = (userId, newData) => {
 
     const storage = getFirebase().storage();
     const storageRef = storage.ref(`images/${newProfileImage.fileName}`);
+    const permittedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+    const isImage = permittedTypes.some(
+      (type) => type === newProfileImage.image.type
+    );
+    const isPermittedSize = newProfileImage.image.size <= 2000000; // max image size is <= 2mb
 
-    storageRef.put(newProfileImage.image).then(() => {
-      // Get the URL from the uploaded image
-      storageRef.getDownloadURL().then((newImageURL) => {
-        // update the profile
-        firestore
-          .collection('users')
-          .doc(userId)
-          .update({
-            firstName: newData.firstName,
-            lastName: newData.lastName,
-            profileImageUrl: newImageURL,
-          })
-          .then(() => dispatch({ type: 'UPDATE_PROFILE_SUCCESS' }))
-          .catch((err) => console.log(err));
+    if (isImage) {
+      if (isPermittedSize) {
+        // Upload the image
+        storageRef.put(newProfileImage.image).then(() => {
+          // Get the URL from the uploaded image
+          storageRef.getDownloadURL().then((newImageURL) => {
+            // update the profile
+            firestore
+              .collection('users')
+              .doc(userId)
+              .update({
+                firstName: newData.firstName,
+                lastName: newData.lastName,
+                profileImageUrl: newImageURL,
+              })
+              .then(() => {
+                dispatch({ type: 'CLEANUP_ERROR_MESSAGE' });
+                dispatch({ type: 'UPDATE_PROFILE_SUCCESS' });
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+      } else {
+        // image size is too big
+        dispatch({ type: 'CLEANUP_UPDATE_MESSAGE' });
+        dispatch({
+          type: 'ERROR_IMAGE_SIZE_TOO_BIG',
+          message: 'The maximum size of the image is 2MB',
+        });
+      }
+    } else {
+      // the file is not a permitted image type
+      dispatch({ type: 'CLEANUP_UPDATE_MESSAGE' });
+      dispatch({
+        type: 'ERROR_INVALID_FILETYPE',
+        message: 'The selected file is not an image',
       });
-    });
+    }
   };
 };

@@ -7,6 +7,7 @@ const ProfileInfo = (props) => {
   useEffect(() => {
     document.title = 'Edit Profile Info';
     props.cleanupUpdateMessage();
+    props.cleanupErrorMessage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -21,6 +22,7 @@ const ProfileInfo = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     cleanupUpdateMessage: () => dispatch({ type: 'CLEANUP_UPDATE_MESSAGE' }),
+    cleanupErrorMessage: () => dispatch({ type: 'CLEANUP_ERROR_MESSAGE' }),
   };
 };
 
