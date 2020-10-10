@@ -1,6 +1,5 @@
 const initState = {
   errorMessage: null,
-  newProfileImageURL: null,
   successUpdateProfile: false,
 };
 
@@ -19,18 +18,6 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         errorMessage: action.error,
-      };
-
-    case 'SUCCESS_UPLOAD_NEW_IMAGE':
-      return {
-        ...state,
-        newProfileImageURL: action.newImageURL,
-      };
-
-    case 'CLEANUP_NEW_IMAGE_URL':
-      return {
-        ...state,
-        newProfileImageURL: null,
       };
 
     case 'UPDATE_PROFILE_SUCCESS':
