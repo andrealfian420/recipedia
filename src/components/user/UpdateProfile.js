@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 import { updateProfile } from '../../store/actions/authActions';
 
 const UpdateProfile = (props) => {
@@ -16,8 +17,7 @@ const UpdateProfile = (props) => {
 
   const handleImageInput = (e) => {
     const inputtedImage = e.target.files[0];
-    const timeStamp = new Date().getTime();
-    const fileName = `${userId}${timeStamp}`;
+    const fileName = `${uuid()}`;
     setImageTempURL(URL.createObjectURL(inputtedImage));
 
     const image = {
