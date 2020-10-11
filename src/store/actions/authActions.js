@@ -61,28 +61,75 @@ export const signOut = () => {
   };
 };
 
-export const updatePassword = (userData, newPassword) => {
+export const updatePassword = (userData, passwordData) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const user = firebase.auth().currentUser;
+    const { email, oldPassword } = userData;
+    const { newPassword, confirmPassword } = passwordData;
+
+    // if some data is not provided by the user
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      // do something
+      return dispatch({
+        type: 'PASSWORD_EMPTY',
+        message: `Please fill the password fields`,
+      });
+    }
+
+    // if the new password doesn't match the confirm password
+    if (newPassword !== confirmPassword) {
+      // do something
+      return dispatch({
+        type: 'NEW_PASSWORD_NOT_MATCH',
+        message: `The new/confirm password doesn't match`,
+      });
+    }
+
     const credential = firebase.auth.EmailAuthProvider.credential(
-      userData.email,
-      userData.oldPassword
+      email,
+      oldPassword
     );
 
-    // To be completed later on
+    // proceed to update the password
     user
       .reauthenticateWithCredential(credential)
       .then((res) => {
         // old password ok
         user
           .updatePassword(newPassword)
-          .then((res) => console.log('password updated'))
-          .catch((err) => console.log(err));
+          .then(() => {
+            dispatch({ type: 'CLEANUP_PASSWORD_ERROR_MESSAGE' });
+            dispatch({
+              type: 'UPDATE_PASSWORD_SUCCESS',
+              message: 'Your password has been updated',
+            });
+          })
+          .catch((err) => {
+            dispatch({ type: 'CLEANUP_PASSWORD_SUCCESS_MESSAGE' });
+            return dispatch({
+              type: 'WRONG_NEW_PASSWORD',
+              message: err.message,
+            });
+          });
       })
       .catch((err) => {
-        // old password is wrong
-        console.log('Password lama salah');
+        // if the old password is wrong
+        dispatch({ type: 'CLEANUP_PASSWORD_SUCCESS_MESSAGE' });
+
+        switch (err.code) {
+          case 'auth/wrong-password':
+            return dispatch({
+              type: 'WRONG_OLD_PASSWORD',
+              message: 'The old password is invalid',
+            });
+
+          default:
+            return dispatch({
+              type: 'DEFAULT_PASSWORD_ERROR',
+              message: err.message,
+            });
+        }
       });
   };
 };
