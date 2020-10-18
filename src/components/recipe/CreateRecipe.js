@@ -2,16 +2,28 @@ import React, { useEffect, useState, useRef } from 'react';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { connect } from 'react-redux';
+import Swal from 'sweetalert2';
+import { createRecipe } from '../../store/actions/recipeActions';
 
-const CreateRecipe = () => {
+const CreateRecipe = (props) => {
   const [title, setTitle] = useState(null);
   const [image, setImage] = useState(null);
+  const [ingredients, setIngredients] = useState(null);
+  const [instructions, setInstructions] = useState(null);
+  const [durationNumber, setDurationNumber] = useState(null);
+  const [durationUnit, setDurationUnit] = useState(null);
   const [imageTempURL, setImageTempURL] = useState(null);
   const [isImageExist, setIsImageExist] = useState(false);
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [durationNumber, setDurationNumber] = useState('');
-  const [durationUnit, setDurationUnit] = useState('');
+  const {
+    createRecipe,
+    successCreateRecipeStatus,
+    resetRecipeSuccessStatus,
+    errorCreateRecipeMessage,
+    cleanupRecipeErrorMessage,
+    profile,
+    userId,
+  } = props;
 
   const reInputFile = useRef(null);
 
@@ -62,7 +74,11 @@ const CreateRecipe = () => {
       setDurationNumber(e.target.value);
     } else {
       e.target.value = '';
-      return alert('please only input number');
+      return Swal.fire({
+        title: 'Error',
+        text: 'Please input number on this field !',
+        icon: 'error',
+      });
     }
   };
 
@@ -88,16 +104,36 @@ const CreateRecipe = () => {
       durationUnit,
     };
 
-    const isDataNotExist = Object.values(recipeData).some(
-      (items) => items === '' || items === null
-    );
+    const authorData = {
+      id: userId,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+    };
 
-    if (isDataNotExist) {
-      return alert('ada data yg masih kosong');
-    }
-
-    return console.log(recipeData);
+    return createRecipe(recipeData, authorData);
   };
+
+  if (successCreateRecipeStatus) {
+    Swal.fire({
+      title: 'Success',
+      text: 'Your recipe has been created !',
+      icon: 'success',
+    }).then(() => {
+      resetRecipeSuccessStatus();
+
+      return props.history.push('/'); // redirect to home after creating recipe
+    });
+  }
+
+  if (errorCreateRecipeMessage) {
+    Swal.fire({
+      title: 'Error',
+      text: errorCreateRecipeMessage,
+      icon: 'error',
+    }).then(() => {
+      return cleanupRecipeErrorMessage();
+    });
+  }
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
@@ -233,4 +269,24 @@ const CreateRecipe = () => {
   );
 };
 
-export default CreateRecipe;
+const mapStateToProps = (state) => {
+  return {
+    profile: state.firebase.profile,
+    userId: state.firebase.auth.uid,
+    successCreateRecipeStatus: state.recipe.successCreateRecipeStatus,
+    errorCreateRecipeMessage: state.recipe.errorCreateRecipeMessage,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createRecipe: (recipeData, authorData) =>
+      dispatch(createRecipe(recipeData, authorData)),
+    resetRecipeSuccessStatus: () =>
+      dispatch({ type: 'RESET_RECIPE_SUCCESS_STATUS' }),
+    cleanupRecipeErrorMessage: () =>
+      dispatch({ type: 'CLEANUP_RECIPE_ERROR_MESSAGE' }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRecipe);
