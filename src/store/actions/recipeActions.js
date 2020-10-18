@@ -39,6 +39,7 @@ export const createRecipe = (recipeData, authorData) => {
               duration: `${recipeData.durationNumber} ${recipeData.durationUnit}`,
               stars: [],
               starsCount: 0,
+              createdAt: new Date(),
               authorId: authorData.id,
               authorFullName: `${authorData.firstName} ${authorData.lastName}`,
             };
