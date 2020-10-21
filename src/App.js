@@ -27,7 +27,7 @@ function App() {
         <PublicRoute exact path="/" layout={DefaultLayout} component={Home} />
         <PublicRoute path="/about" layout={DefaultLayout} component={About} />
         <PublicRoute
-          path="/recipe/:id"
+          path="/recipe/:slug"
           layout={DefaultLayout}
           component={RecipeDetail}
         />

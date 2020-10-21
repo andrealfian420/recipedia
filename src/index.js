@@ -50,7 +50,13 @@ const rrfProps = {
   attachAuthIsReady: true,
   onAuthStateChanged: (authData, firebase, dispatch) => {
     if (!authData) {
-      dispatch({ type: actionTypes.CLEAR_DATA });
+      dispatch({
+        type: actionTypes.CLEAR_DATA,
+        preserve: {
+          data: [],
+          ordered: ['recipes'],
+        },
+      });
     }
   },
 };

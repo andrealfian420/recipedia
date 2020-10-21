@@ -19213,8 +19213,8 @@ video {
   border-right-width: 1px;
 }
 
-.recipe-step > * {
-  margin-bottom: 0.75rem;
+.recipe-list > * {
+  margin-bottom: 0.25rem;
 }
 
 @media (min-width: 640px){

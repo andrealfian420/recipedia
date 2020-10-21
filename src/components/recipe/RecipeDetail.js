@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import RecipeDetailHeader from '../layout/RecipeDetailHeader';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { actionTypes } from 'redux-firestore';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import SignOutLinks from '../layout/SignOutLinks';
-import dummyImg from '../../images/seblak.jpg';
+import listChecker from '../../helpers/listChecker';
 
 const RecipeDetail = (props) => {
+  const { auth, recipe, removePreviousRecipeOnMount } = props;
+
   useEffect(() => {
-    document.title = 'Recipe Detail';
-  });
+    return () => {
+      removePreviousRecipeOnMount();
+    };
+  }, [removePreviousRecipeOnMount]);
 
   const [starClicked, setStarClicked] = useState(false);
 
@@ -17,54 +23,56 @@ const RecipeDetail = (props) => {
     setStarClicked(!starClicked);
   };
 
-  const { auth } = props;
+  if (!recipe) {
+    return (
+      <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+        {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
+        <h3 className="text-center">Loading...</h3>
+      </main>
+    );
+  }
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
       {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
-      <RecipeDetailHeader />
+
+      <header>
+        <h2 className="text-gray-700 text-center md:text-left text-4xl md:text-6xl font-semibold">
+          {recipe.title}
+        </h2>
+        <h3 className="text-xl md:text-2xl text-center md:text-left font-semibold">
+          by {recipe.authorFullName}
+        </h3>
+      </header>
 
       <div className="py-2 overflow-hidden">
         <img
-          src={dummyImg}
-          alt="Seblak"
+          src={recipe.image}
+          alt={recipe.title}
           className="recipe-image object-cover w-full h-full md:h-64 rounded-md"
+          style={{ height: '60vh' }}
         />
       </div>
 
       <div className="p-2 my-2">
-        <h3 className="text-xl font-semibold">Ingredients :</h3>
+        <h3 className="text-xl font-bold text-center md:text-left mb-2">
+          Ingredients :
+        </h3>
 
-        <span>
-          - 25 lembar kulit pangsit atau dimsum yang siap dipakai <br />
-          - 50 gram udang yang telah dikupas <br />
-          - 150 gram daging ayam yang telah dicincang <br />
-          - 50 gram jamur kuping <br />
-          - Merica <br />
-          - Daun bawang <br />- 1 buah wortel yang sudah dipotong kecil-kecil
-        </span>
+        <div
+          dangerouslySetInnerHTML={{ __html: listChecker(recipe.ingredients) }}
+        />
       </div>
 
-      <div className="p-2 my-2">
-        <h3 className="text-xl font-semibold">How to make :</h3>
+      <div className="p-2">
+        <h3 className="text-xl font-bold text-center md:text-left mb-2">
+          How to make :
+        </h3>
 
-        <div className="recipe-step text-justify">
-          <p>
-            Pertama potong udang, jamur, dan daging ayam dalam potongan yang
-            kecil. Tak lupa juga, mencincang halus daun bawang. Setelah itu
-            campurkan potongan udang, daging ayam, jamur, dan daun bawang
-            kemudian taburi bumbu garam, gula pasir dan merica. Tambahkan dan
-            uleni kepung kanji pada siomay.
-          </p>
-
-          <p>
-            Kemudian ambil selembar kulit pangsit, isi dengan campuran adonan
-            udang dan yam. Satukan ujung-ujung kulit pangsit. Perhatikan jangan
-            sampai kulit siomay penuh dengan isi supaya tidak tumpah. Kemudian
-            hias bagian atasnya dengan wotel. Setelah itu, kukus di panic selama
-            15 menit. Dan setelah matang, sajikan dengan saus sambal.
-          </p>
-        </div>
+        <div
+          className="text-justify"
+          dangerouslySetInnerHTML={{ __html: listChecker(recipe.instructions) }}
+        />
       </div>
 
       <div className="flex justify-center items-center mt-6">
@@ -90,9 +98,36 @@ const RecipeDetail = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  const recipe = state?.firestore?.ordered?.recipe?.[0];
+
   return {
     auth: state.firebase.auth,
+    recipe,
   };
 };
 
-export default connect(mapStateToProps)(RecipeDetail);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removePreviousRecipeOnMount: () =>
+      dispatch({
+        type: actionTypes.CLEAR_DATA,
+        preserve: {
+          data: [],
+          ordered: ['recipes'],
+        },
+      }),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: 'recipes',
+        where: ['slug', '==', props.match.params.slug],
+        storeAs: 'recipe',
+      },
+    ];
+  })
+)(RecipeDetail);
