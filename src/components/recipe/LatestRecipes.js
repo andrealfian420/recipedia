@@ -33,6 +33,11 @@ const mapStateToProps = (state) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([
-    { collection: 'recipes', orderBy: ['createdAt', 'desc'], limit: 6 },
+    {
+      collection: 'recipes',
+      orderBy: ['createdAt', 'desc'],
+      limit: 6,
+      storeAs: 'recipes',
+    },
   ])
 )(LatestRecipes);
