@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const LatestRecipesCard = ({ recipes }) => {
   const recipesCard = recipes.map((recipe) => {
     return (
-      <>
+      <React.Fragment key={recipe.id}>
         {/* Card */}
         <div className="card hover:shadow-lg">
           <img src={recipe.image} alt={recipe.title} className="card-img" />
@@ -41,7 +41,7 @@ const LatestRecipesCard = ({ recipes }) => {
           </div>
         </div>
         {/* End of Card */}
-      </>
+      </React.Fragment>
     );
   });
   return (
