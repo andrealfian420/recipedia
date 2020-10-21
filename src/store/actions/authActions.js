@@ -1,5 +1,3 @@
-import { actionTypes } from 'redux-firestore';
-
 export const signUp = (newUser) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
@@ -56,7 +54,6 @@ export const signOut = () => {
       .signOut()
       .then(() => {
         dispatch({ type: 'LOGOUT_SUCCESS' });
-        dispatch({ type: actionTypes.CLEAR_DATA });
       });
   };
 };
