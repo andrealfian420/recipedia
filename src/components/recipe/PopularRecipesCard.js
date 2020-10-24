@@ -1,21 +1,32 @@
 import React from 'react';
-import dummyImg from '../../images/seblak.jpg';
+import { Link } from 'react-router-dom';
 
-const PopularRecipesCard = () => {
-  return (
-    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-5">
-      <div className="card hover:shadow-lg">
-        <img src={dummyImg} alt="Dummy" loading="lazy" className="card-img" />
+const PopularRecipesCard = ({ popularRecipes }) => {
+  const recipeCards = popularRecipes.map((recipe) => {
+    return (
+      <div className="card hover:shadow-lg" key={recipe.id}>
+        <img
+          src={recipe.image}
+          alt={recipe.title}
+          loading="lazy"
+          className="card-img"
+        />
 
         <div className="m-4">
-          <a href="!#" className="font-bold hover:underline">
-            Sate Taichan
-          </a>
+          <Link
+            to={`/recipe/${recipe.slug}`}
+            className="font-bold hover:underline"
+          >
+            {recipe.title}
+          </Link>
           <span className="block text-gray-500 text-sm">
             Recipe by {''}
-            <a href="!#" className="text-blue-700 hover:underline">
-              Kai Havertz
-            </a>
+            <Link
+              to={`/profile/${recipe.authorId}`}
+              className="text-blue-700 hover:underline"
+            >
+              {recipe.authorFullName}
+            </Link>
           </span>
         </div>
         <div className="card-badge">
@@ -26,9 +37,14 @@ const PopularRecipesCard = () => {
           >
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
           </svg>
-          <span>30</span>
+          <span>{recipe.starsCount}</span>
         </div>
       </div>
+    );
+  });
+  return (
+    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-5">
+      {recipeCards}
     </div>
   );
 };
