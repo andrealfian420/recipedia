@@ -23,7 +23,7 @@ const Profile = (props) => {
           My Recipes
         </h1>
 
-        {myRecipes ? (
+        {myRecipes?.length ? (
           <MyRecipe myRecipes={myRecipes} />
         ) : (
           <div className="text-red-600 text-center md:text-left mt-2 md:mt-3">
