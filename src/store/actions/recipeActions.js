@@ -75,3 +75,39 @@ export const createRecipe = (recipeData, authorData) => {
     }
   };
 };
+
+export const giveStarToRecipe = (userId, recipeId) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+
+    firestore
+      .collection('recipes')
+      .doc(recipeId)
+      .update({
+        stars: firebase.firestore.FieldValue.arrayUnion(userId),
+        starsCount: firebase.firestore.FieldValue.increment(1),
+      })
+      .then(() => {
+        console.log('star +1');
+      });
+  };
+};
+
+export const removeStarFromRecipe = (userId, recipeId) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+
+    firestore
+      .collection('recipes')
+      .doc(recipeId)
+      .update({
+        stars: firebase.firestore.FieldValue.arrayRemove(userId),
+        starsCount: firebase.firestore.FieldValue.increment(-1),
+      })
+      .then(() => {
+        console.log('star -1');
+      });
+  };
+};

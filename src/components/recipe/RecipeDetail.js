@@ -7,9 +7,20 @@ import { actionTypes } from 'redux-firestore';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import SignOutLinks from '../layout/SignOutLinks';
 import listChecker from '../../helpers/listChecker';
+import { giveStarToRecipe } from '../../store/actions/recipeActions';
+import { removeStarFromRecipe } from '../../store/actions/recipeActions';
 
 const RecipeDetail = (props) => {
-  const { auth, recipe, removePreviousRecipeOnMount } = props;
+  const {
+    auth,
+    recipe,
+    removePreviousRecipeOnMount,
+    giveStarToRecipe,
+    removeStarFromRecipe,
+  } = props;
+
+  const [starGiven, setStarGiven] = useState(false);
+  const isStarGiven = recipe?.stars?.some((star) => star === auth?.uid);
 
   useEffect(() => {
     return () => {
@@ -17,10 +28,16 @@ const RecipeDetail = (props) => {
     };
   }, [removePreviousRecipeOnMount]);
 
-  const [starClicked, setStarClicked] = useState(false);
+  useEffect(() => {
+    setStarGiven(isStarGiven);
+  }, [isStarGiven]);
 
-  const handleStarClick = (e) => {
-    setStarClicked(!starClicked);
+  const handleStarClick = () => {
+    if (isStarGiven) {
+      removeStarFromRecipe(auth.uid, recipe.id);
+    } else {
+      giveStarToRecipe(auth.uid, recipe.id);
+    }
   };
 
   if (!recipe) {
@@ -78,7 +95,7 @@ const RecipeDetail = (props) => {
       <div className="flex justify-center items-center mt-6">
         <svg
           viewBox="0 0 20 20"
-          fill={!starClicked ? 'currentColor' : '#fae13c'}
+          fill={!starGiven ? 'currentColor' : '#fae13c'}
           className="star w-12 h-12 cursor-pointer"
           onClick={handleStarClick}
         >
@@ -116,6 +133,10 @@ const mapDispatchToProps = (dispatch) => {
           ordered: ['recipes'],
         },
       }),
+    giveStarToRecipe: (userId, recipeId) =>
+      dispatch(giveStarToRecipe(userId, recipeId)),
+    removeStarFromRecipe: (userId, recipeId) =>
+      dispatch(removeStarFromRecipe(userId, recipeId)),
   };
 };
 
