@@ -11,7 +11,7 @@ const LatestRecipes = ({ recipes }) => {
         Latest recipes
       </h4>
 
-      {recipes ? (
+      {recipes?.length ? (
         <LatestRecipesCard recipes={recipes} />
       ) : (
         <div className="w-full text-center my-5">
