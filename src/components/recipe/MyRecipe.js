@@ -1,7 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { connect } from 'react-redux';
+import { deleteRecipe } from '../../store/actions/recipeActions';
 
-const MyRecipe = ({ myRecipes }) => {
+const MyRecipe = ({ myRecipes, deleteRecipe }) => {
+  const handleDeleteButton = (recipeId) => {
+    Swal.fire({
+      title: 'Are you sure about this?',
+      text: 'The selected recipe will be permanently deleted!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, please delete it',
+      allowOutsideClick: false,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        deleteRecipe(recipeId);
+
+        Swal.fire(
+          'Deleted!',
+          'The selected recipe has been deleted!',
+          'success'
+        );
+      }
+    });
+  };
+
   const recipeCards = myRecipes.map((recipe) => {
     return (
       <div className="card hover:shadow-lg" key={recipe.id}>
@@ -19,10 +45,16 @@ const MyRecipe = ({ myRecipes }) => {
             {recipe.title}
           </Link>
           <div className="mt-1">
-            <span className="text-white bg-green-600 hover:bg-green-500 cursor-pointer rounded-sm p-1 mr-1">
+            <Link
+              to={`/edit/${recipe.id}`}
+              className="text-white bg-green-600 hover:bg-green-500 cursor-pointer rounded-sm p-1 mr-1"
+            >
               Update
-            </span>
-            <span className="text-white bg-red-600 hover:bg-red-500 cursor-pointer rounded-sm p-1">
+            </Link>
+            <span
+              className="text-white bg-red-600 hover:bg-red-500 cursor-pointer rounded-sm p-1"
+              onClick={() => handleDeleteButton(recipe.id)}
+            >
               Delete
             </span>
           </div>
@@ -52,4 +84,10 @@ const MyRecipe = ({ myRecipes }) => {
   );
 };
 
-export default MyRecipe;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteRecipe: (recipeId) => dispatch(deleteRecipe(recipeId)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MyRecipe);

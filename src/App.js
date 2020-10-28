@@ -19,6 +19,7 @@ import SignUp from './components/auth/SignUp';
 import ForgotPassword from './components/auth/ForgotPassword';
 import RecipeDetail from './components/recipe/RecipeDetail';
 import CreateRecipe from './components/recipe/CreateRecipe';
+import EditRecipe from './components/recipe/EditRecipe';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
           path="/createrecipe"
           layout={DefaultLayout}
           component={CreateRecipe}
+        />
+        <ProtectedRoute
+          path="/edit/:id"
+          layout={DefaultLayout}
+          component={EditRecipe}
         />
         <ProtectedRoute
           path="/myprofile"

@@ -76,6 +76,94 @@ export const createRecipe = (recipeData, authorData) => {
   };
 };
 
+export const updateRecipe = (recipeId, recipeData) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    const isNewImageExist = recipeData.image.type ? true : false;
+
+    // user is not updating image
+    if (!isNewImageExist) {
+      return firestore
+        .collection('recipes')
+        .doc(recipeId)
+        .update({
+          ...recipeData,
+          slug: `${slugify(recipeData.title)}-${new Date().getTime()}`,
+        })
+        .then(() => {
+          dispatch({ type: 'CLEANUP_RECIPE_ERROR_MESSAGE' });
+          dispatch({
+            type: 'SUCCESS_UPDATE_RECIPE',
+          });
+        })
+        .catch((err) => {
+          dispatch({ type: 'CLEANUP_RECIPE_SUCCESS_MESSAGE' });
+          dispatch({
+            type: 'ERROR_UPDATE_RECIPE',
+            message: err.message,
+          });
+        });
+    }
+
+    const storage = getFirebase().storage();
+    const storageRef = storage.ref(
+      `images/recipes/${slugify(recipeData.title)}-${new Date().getTime()}`
+    );
+    const permittedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+    const isImage = permittedTypes.some(
+      (type) => type === recipeData.image.type
+    );
+    const isPermittedSize = recipeData.image.size <= 2000000; // max image size is <= 2mb
+
+    if (isImage) {
+      if (isPermittedSize) {
+        // do something if the size is ok
+        storageRef.put(recipeData.image).then(() => {
+          storageRef.getDownloadURL().then((imageURL) => {
+            return firestore
+              .collection('recipes')
+              .doc(recipeId)
+              .update({
+                ...recipeData,
+                image: imageURL,
+                slug: `${slugify(recipeData.title)}-${new Date().getTime()}`,
+              })
+              .then(() => {
+                dispatch({ type: 'CLEANUP_RECIPE_ERROR_MESSAGE' });
+                dispatch({
+                  type: 'SUCCESS_UPDATE_RECIPE',
+                });
+              })
+              .catch((err) => console.log(err));
+          });
+        });
+      } else {
+        // error image is too big
+        dispatch({ type: 'CLEANUP_RECIPE_SUCCESS_MESSAGE' });
+        dispatch({
+          type: 'RECIPE_IMAGE_TOO_BIG',
+          message: 'The image size must be less or equals to 2MB',
+        });
+      }
+    } else {
+      // error the file is not an image
+      dispatch({ type: 'CLEANUP_RECIPE_SUCCESS_MESSAGE' });
+      dispatch({
+        type: 'INVALID_RECIPE_FILETYPE',
+        message: 'The selected file is not an image',
+      });
+    }
+  };
+};
+
+export const deleteRecipe = (recipeId) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+
+    firestore.collection('recipes').doc(recipeId).delete();
+  };
+};
+
 export const giveStarToRecipe = (userId, recipeId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
