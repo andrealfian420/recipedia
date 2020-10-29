@@ -1,8 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const LatestRecipesCard = ({ recipes }) => {
+const LatestRecipesCard = ({ recipes, userId }) => {
   const recipesCard = recipes.map((recipe) => {
+    const profileLink =
+      userId === recipe.authorId ? '/myprofile' : `/profile/${recipe.authorId}`;
+
     return (
       <div className="card hover:shadow-lg" key={recipe.id}>
         <img
@@ -20,10 +24,7 @@ const LatestRecipesCard = ({ recipes }) => {
           </Link>
           <span className="block text-gray-500 text-sm">
             Recipe by {''}
-            <Link
-              to={`/profile/${recipe.authorId}`}
-              className="text-blue-700 hover:underline"
-            >
+            <Link to={profileLink} className="text-blue-700 hover:underline">
               {recipe.authorFullName}
             </Link>
           </span>
@@ -52,4 +53,10 @@ const LatestRecipesCard = ({ recipes }) => {
   );
 };
 
-export default LatestRecipesCard;
+const mapStateToProps = (state) => {
+  return {
+    userId: state?.firebase?.auth?.uid,
+  };
+};
+
+export default connect(mapStateToProps)(LatestRecipesCard);
