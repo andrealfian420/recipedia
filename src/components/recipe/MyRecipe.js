@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { connect } from 'react-redux';
 import { deleteRecipe } from '../../store/actions/recipeActions';
 
-const MyRecipe = ({ myRecipes, deleteRecipe }) => {
+const MyRecipe = ({ myRecipes, deleteRecipe, isOwnProfile }) => {
   const handleDeleteButton = (recipeId) => {
     Swal.fire({
       title: 'Are you sure about this?',
@@ -44,20 +44,22 @@ const MyRecipe = ({ myRecipes, deleteRecipe }) => {
           >
             {recipe.title}
           </Link>
-          <div className="mt-1">
-            <Link
-              to={`/edit/${recipe.id}`}
-              className="text-white bg-green-600 hover:bg-green-500 cursor-pointer rounded-sm p-1 mr-1"
-            >
-              Update
-            </Link>
-            <span
-              className="text-white bg-red-600 hover:bg-red-500 cursor-pointer rounded-sm p-1"
-              onClick={() => handleDeleteButton(recipe.id)}
-            >
-              Delete
-            </span>
-          </div>
+          {isOwnProfile ? (
+            <div className="mt-1">
+              <Link
+                to={`/edit/${recipe.id}`}
+                className="text-white bg-green-600 hover:bg-green-500 cursor-pointer rounded-sm p-1 mr-1"
+              >
+                Update
+              </Link>
+              <span
+                className="text-white bg-red-600 hover:bg-red-500 cursor-pointer rounded-sm p-1"
+                onClick={() => handleDeleteButton(recipe.id)}
+              >
+                Delete
+              </span>
+            </div>
+          ) : null}
         </div>
         <div className="card-badge">
           <svg

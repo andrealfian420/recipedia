@@ -16,7 +16,7 @@ const Profile = (props) => {
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
       <UserProfileNavbar />
-      <UserProfileSection profile={profile} />
+      <UserProfileSection profile={profile} isOwnProfile={true} />
 
       <div className="flex flex-col justify-center md:justify-start p-4">
         <h1 className="text-lg md:text-2xl text-center md:text-left mb-3 font-bold">
@@ -24,7 +24,7 @@ const Profile = (props) => {
         </h1>
 
         {myRecipes?.length ? (
-          <MyRecipe myRecipes={myRecipes} />
+          <MyRecipe myRecipes={myRecipes} isOwnProfile={true} />
         ) : (
           <div className="text-red-600 text-center md:text-left mt-2 md:mt-3">
             <span>You haven't created any recipe</span>
