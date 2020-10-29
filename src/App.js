@@ -13,6 +13,7 @@ import PublicRoute from './components/routes/PublicRoute';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Profile from './components/user/Profile';
+import UserProfile from './components/user/UserProfile';
 import ProfileInfo from './components/user/ProfileInfo';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
@@ -31,6 +32,11 @@ function App() {
           path="/recipe/:slug"
           layout={DefaultLayout}
           component={RecipeDetail}
+        />
+        <PublicRoute
+          path="/profile/:id"
+          layout={DefaultLayout}
+          component={UserProfile}
         />
         <ProtectedRoute
           path="/createrecipe"
