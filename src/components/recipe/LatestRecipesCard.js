@@ -20,12 +20,12 @@ const LatestRecipesCard = ({ recipes }) => {
           </Link>
           <span className="block text-gray-500 text-sm">
             Recipe by {''}
-            <a
-              href={`/profile/${recipe.authorId}`}
+            <Link
+              to={`/profile/${recipe.authorId}`}
               className="text-blue-700 hover:underline"
             >
               {recipe.authorFullName}
-            </a>
+            </Link>
           </span>
         </div>
         <div className="card-badge">
