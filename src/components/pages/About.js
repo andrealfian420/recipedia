@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
+import SignOutLinks from '../layout/SignOutLinks';
 
-const About = () => {
+const About = ({ userId }) => {
   useEffect(() => {
     document.title = 'About Page';
   });
 
   return (
     <div className="px-8 py-6 bg-gray-100 md:col-span-10">
-      <UserProfileNavbar />
+      {userId ? <UserProfileNavbar /> : <SignOutLinks />}
 
       <div className="mt-4 py-2 px-4 flex flex-col justify-center items-center">
         <h1 className="text-6xl font-extrabold">
@@ -81,4 +83,10 @@ const About = () => {
   );
 };
 
-export default About;
+const mapStateToProps = (state) => {
+  return {
+    userId: state?.firebase?.auth?.uid,
+  };
+};
+
+export default connect(mapStateToProps)(About);
