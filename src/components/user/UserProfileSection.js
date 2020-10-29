@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const UserNameSection = ({ profile }) => {
+const UserNameSection = ({ profile, isOwnProfile }) => {
   return (
     <div className="flex flex-col md:flex-row justify-center items-center mt-4 pb-4 md:justify-start border-b-4 border-gray-300">
       <img
@@ -18,12 +18,14 @@ const UserNameSection = ({ profile }) => {
           {profile.lastName}
         </span>
 
-        <Link
-          to="/profileinfo"
-          className="text-lg text-center md:text-left text-blue-500 hover:text-blue-700 font-semibold"
-        >
-          Edit profile information
-        </Link>
+        {isOwnProfile ? (
+          <Link
+            to="/profileinfo"
+            className="text-lg text-center md:text-left text-blue-500 hover:text-blue-700 font-semibold"
+          >
+            Edit profile information
+          </Link>
+        ) : null}
       </div>
     </div>
   );
