@@ -7,8 +7,11 @@ import { actionTypes } from 'redux-firestore';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import SignOutLinks from '../layout/SignOutLinks';
 import listChecker from '../../helpers/listChecker';
-import { giveStarToRecipe } from '../../store/actions/recipeActions';
-import { removeStarFromRecipe } from '../../store/actions/recipeActions';
+import {
+  giveStarToRecipe,
+  removeStarFromRecipe,
+} from '../../store/actions/recipeActions';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const RecipeDetail = (props) => {
   const {
@@ -19,18 +22,23 @@ const RecipeDetail = (props) => {
     removeStarFromRecipe,
   } = props;
 
-  const [starGiven, setStarGiven] = useState(false);
-  const isStarGiven = recipe?.stars?.some((star) => star === auth?.uid);
-
   useEffect(() => {
     return () => {
       removePreviousRecipeOnMount();
     };
   }, [removePreviousRecipeOnMount]);
 
+  const [starGiven, setStarGiven] = useState(false);
+  const isStarGiven = recipe?.stars?.some((star) => star === auth?.uid);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setStarGiven(isStarGiven);
   }, [isStarGiven]);
+
+  useEffect(() => {
+    setLoading(recipe ? false : true);
+  }, [recipe]);
 
   const handleStarClick = () => {
     if (isStarGiven) {
@@ -40,15 +48,19 @@ const RecipeDetail = (props) => {
     }
   };
 
-  if (!recipe) {
+  if (loading) {
+    document.title = 'Loading..';
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
-        <h3 className="text-center">Loading...</h3>
+        <div className="flex justify-center items-center w-full h-full">
+          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+        </div>
       </main>
     );
   }
 
+  document.title = recipe.title;
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
       {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
