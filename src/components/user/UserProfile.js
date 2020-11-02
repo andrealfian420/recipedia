@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -7,6 +7,7 @@ import UserProfileNavbar from '../layout/UserProfileNavbar';
 import SignOutLinks from '../layout/SignOutLinks';
 import UserProfileSection from './UserProfileSection';
 import MyRecipe from '../recipe/MyRecipe';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const UserProfile = (props) => {
   const {
@@ -16,17 +17,28 @@ const UserProfile = (props) => {
     removePreviousProfileOnMount,
   } = props;
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     return () => {
       removePreviousProfileOnMount();
     };
   }, [removePreviousProfileOnMount]);
 
-  if (!authorProfile) {
+  useEffect(() => {
+    setLoading(authorProfile ? false : true);
+  }, [authorProfile]);
+
+  if (loading) {
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {userId ? <UserProfileNavbar /> : <SignOutLinks />}
-        <h3 className="text-center">Loading...</h3>
+        <div
+          className="flex justify-center items-center w-full"
+          style={{ height: '50%' }}
+        >
+          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+        </div>
       </main>
     );
   }

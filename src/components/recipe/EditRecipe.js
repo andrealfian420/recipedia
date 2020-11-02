@@ -8,6 +8,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import Swal from 'sweetalert2';
 import { updateRecipe } from '../../store/actions/recipeActions';
 import { actionTypes } from 'redux-firestore';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const EditRecipe = (props) => {
   const [title, setTitle] = useState(null);
@@ -17,6 +18,7 @@ const EditRecipe = (props) => {
   const [durationNumber, setDurationNumber] = useState(null);
   const [durationUnit, setDurationUnit] = useState(null);
   const [imageTempURL, setImageTempURL] = useState(null);
+  const [loading, setLoading] = useState(true);
   const {
     updateRecipe,
     successUpdateRecipeStatus,
@@ -41,19 +43,20 @@ const EditRecipe = (props) => {
     };
   }, [removePreviousRecipeOnMount]);
 
-  const modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ size: ['small', false, 'large', 'huge'] }],
-    ],
-  };
-  const formats = ['bold', 'italic', 'underline', 'list', 'size'];
+  useEffect(() => {
+    setLoading(recipe ? false : true);
+  }, [recipe]);
 
-  if (!recipe) {
+  if (loading) {
     return (
-      <main className="px-16 py-6 bg-gray-100 md:col-span-10 flex justify-center">
-        <span className="text-2xl mt-5">Loading...</span>
+      <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+        <UserProfileNavbar />
+        <div
+          className="flex justify-center items-center w-full"
+          style={{ height: '50%' }}
+        >
+          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+        </div>
       </main>
     );
   }
@@ -62,6 +65,15 @@ const EditRecipe = (props) => {
   const [recipeDurationNumber, recipeDurationUnit] = recipe?.duration.split(
     ' '
   );
+
+  const modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ size: ['small', false, 'large', 'huge'] }],
+    ],
+  };
+  const formats = ['bold', 'italic', 'underline', 'list', 'size'];
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
