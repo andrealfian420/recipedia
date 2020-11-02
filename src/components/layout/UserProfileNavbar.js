@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import UserProfileNavbarLinks from './UserProfileNavbarLinks';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const UserProfileNavbar = (props) => {
   const [showLinks, setShowLinks] = useState(false);
@@ -23,15 +24,15 @@ const UserProfileNavbar = (props) => {
           </span>
           <img
             src={profile.profileImageUrl}
-            alt="Timo Werner"
+            alt={`${profile.firstName} ${profile.lastName}`}
             className="w-12 h-12 object-cover rounded-full border-2 border-gray-300 focus:outline-none cursor-pointer shadow"
             onClick={handleClick}
           />
         </div>
       ) : (
-        <p className="hidden md:flex flex-row md:justify-end items-center text-md">
-          Loading...
-        </p>
+        <div className="hidden md:flex flex-row md:justify-end items-center text-md">
+          <ClipLoader size={25} color={'#9EA5A5'} loading={!profile.isEmpty} />
+        </div>
       )}
       <UserProfileNavbarLinks showLinks={showLinks} />
       {showLinks ? (
