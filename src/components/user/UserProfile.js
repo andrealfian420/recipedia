@@ -7,7 +7,7 @@ import UserProfileNavbar from '../layout/UserProfileNavbar';
 import SignOutLinks from '../layout/SignOutLinks';
 import UserProfileSection from './UserProfileSection';
 import MyRecipe from '../recipe/MyRecipe';
-import BeatLoader from 'react-spinners/BeatLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const UserProfile = (props) => {
   const {
@@ -37,7 +37,7 @@ const UserProfile = (props) => {
           className="flex justify-center items-center w-full"
           style={{ height: '50%' }}
         >
-          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+          <ClipLoader size={35} color={'#9EA5A5'} loading={loading} />
         </div>
       </main>
     );

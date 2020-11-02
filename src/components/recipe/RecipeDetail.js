@@ -11,7 +11,7 @@ import {
   giveStarToRecipe,
   removeStarFromRecipe,
 } from '../../store/actions/recipeActions';
-import BeatLoader from 'react-spinners/BeatLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const RecipeDetail = (props) => {
   const {
@@ -54,7 +54,7 @@ const RecipeDetail = (props) => {
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
         <div className="flex justify-center items-center w-full h-full">
-          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+          <ClipLoader size={25} color={'#9EA5A5'} loading={loading} />
         </div>
       </main>
     );

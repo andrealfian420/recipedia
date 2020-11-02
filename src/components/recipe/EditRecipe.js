@@ -8,7 +8,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import Swal from 'sweetalert2';
 import { updateRecipe } from '../../store/actions/recipeActions';
 import { actionTypes } from 'redux-firestore';
-import BeatLoader from 'react-spinners/BeatLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const EditRecipe = (props) => {
   const [title, setTitle] = useState(null);
@@ -55,7 +55,7 @@ const EditRecipe = (props) => {
           className="flex justify-center items-center w-full"
           style={{ height: '50%' }}
         >
-          <BeatLoader size={35} color={'#9EA5A5'} loading={loading} />
+          <ClipLoader size={25} color={'#9EA5A5'} loading={loading} />
         </div>
       </main>
     );
