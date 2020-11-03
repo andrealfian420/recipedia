@@ -30,7 +30,7 @@ const UserProfileNavbar = (props) => {
           />
         </div>
       ) : (
-        <Loading loading={!profile.isEmpty} component="userprofilenavbar" />
+        <Loading loading={!profile.isEmpty} component="userProfileNavbar" />
       )}
       <UserProfileNavbarLinks showLinks={showLinks} />
       {showLinks ? (

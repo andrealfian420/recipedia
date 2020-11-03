@@ -33,7 +33,7 @@ const UserProfile = (props) => {
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {userId ? <UserProfileNavbar /> : <SignOutLinks />}
-        <Loading loading={loading} component="userprofile" />
+        <Loading loading={loading} component="userProfile" />
       </main>
     );
   }

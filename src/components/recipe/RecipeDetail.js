@@ -53,7 +53,7 @@ const RecipeDetail = (props) => {
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
-        <Loading loading={loading} component="recipedetail" />
+        <Loading loading={loading} component="recipeDetail" />
       </main>
     );
   }

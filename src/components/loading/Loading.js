@@ -19,14 +19,14 @@ export default function Loading({ loading, component }) {
         </div>
       );
 
-    case 'recipedetail':
+    case 'recipeDetail':
       return (
         <div className="flex justify-center items-center w-full h-full">
           <ClipLoader size={20} color={'#9EA5A5'} loading={loading} />
         </div>
       );
 
-    case 'editrecipe':
+    case 'editRecipe':
       return (
         <div
           className="flex justify-center items-center w-full"
@@ -36,14 +36,14 @@ export default function Loading({ loading, component }) {
         </div>
       );
 
-    case 'userprofilenavbar':
+    case 'userProfileNavbar':
       return (
         <div className="hidden md:flex flex-row md:justify-end items-center text-md">
           <ClipLoader size={20} color={'#9EA5A5'} loading={loading} />
         </div>
       );
 
-    case 'userprofile':
+    case 'userProfile':
       return (
         <div
           className="flex justify-center items-center w-full"
