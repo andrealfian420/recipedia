@@ -43,6 +43,15 @@ export default function Loading({ loading, component }) {
         </div>
       );
 
+    case 'ownProfile':
+      return (
+        <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+          <div className="flex justify-center items-center h-48">
+            <ClipLoader size={20} color={'#9EA5A5'} loading={loading} />
+          </div>
+        </main>
+      );
+
     case 'userProfile':
       return (
         <div

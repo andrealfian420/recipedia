@@ -1,17 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import UserProfileNavbar from '../layout/UserProfileNavbar';
 import UserProfileSection from './UserProfileSection';
 import MyRecipe from '../recipe/MyRecipe';
+import Loading from '../loading/Loading';
 
-const Profile = (props) => {
+const Profile = ({ profile, myRecipes }) => {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     document.title = 'Profile';
   });
 
-  const { profile, myRecipes } = props;
+  useEffect(() => {
+    setLoading(profile && myRecipes ? false : true);
+  }, [profile, myRecipes]);
+
+  if (loading) {
+    return <Loading loading={loading} component="ownProfile" />;
+  }
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10">
