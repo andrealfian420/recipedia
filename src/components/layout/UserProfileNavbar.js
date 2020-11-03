@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import UserProfileNavbarLinks from './UserProfileNavbarLinks';
-import ClipLoader from 'react-spinners/ClipLoader';
+import Loading from '../loading/Loading';
 
 const UserProfileNavbar = (props) => {
   const [showLinks, setShowLinks] = useState(false);
@@ -30,9 +30,7 @@ const UserProfileNavbar = (props) => {
           />
         </div>
       ) : (
-        <div className="hidden md:flex flex-row md:justify-end items-center text-md">
-          <ClipLoader size={25} color={'#9EA5A5'} loading={!profile.isEmpty} />
-        </div>
+        <Loading loading={!profile.isEmpty} component="userprofilenavbar" />
       )}
       <UserProfileNavbarLinks showLinks={showLinks} />
       {showLinks ? (

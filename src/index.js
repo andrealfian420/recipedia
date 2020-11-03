@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './styles/main.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import ClipLoader from 'react-spinners/ClipLoader';
+import Loading from './components/loading/Loading';
 
 // Redux
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -66,13 +66,7 @@ const AuthIsLoaded = ({ children }) => {
   const auth = useSelector((state) => state.firebase.auth);
 
   if (!isLoaded(auth)) {
-    return (
-      <div className="flex justify-center align-center h-48">
-        <div className="my-auto">
-          <ClipLoader size={20} color={'#9EA5A5'} loading={!isLoaded(auth)} />
-        </div>
-      </div>
-    );
+    return <Loading loading={!isLoaded(auth)} component="root" />;
   }
 
   return children;

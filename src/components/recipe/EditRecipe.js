@@ -8,7 +8,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import Swal from 'sweetalert2';
 import { updateRecipe } from '../../store/actions/recipeActions';
 import { actionTypes } from 'redux-firestore';
-import ClipLoader from 'react-spinners/ClipLoader';
+import Loading from '../loading/Loading';
 
 const EditRecipe = (props) => {
   const [title, setTitle] = useState(null);
@@ -51,12 +51,7 @@ const EditRecipe = (props) => {
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         <UserProfileNavbar />
-        <div
-          className="flex justify-center items-center w-full"
-          style={{ height: '50%' }}
-        >
-          <ClipLoader size={25} color={'#9EA5A5'} loading={loading} />
-        </div>
+        <Loading loading={loading} component="editrecipe" />
       </main>
     );
   }

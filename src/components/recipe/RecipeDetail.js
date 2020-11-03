@@ -11,7 +11,7 @@ import {
   giveStarToRecipe,
   removeStarFromRecipe,
 } from '../../store/actions/recipeActions';
-import ClipLoader from 'react-spinners/ClipLoader';
+import Loading from '../loading/Loading';
 
 const RecipeDetail = (props) => {
   const {
@@ -53,9 +53,7 @@ const RecipeDetail = (props) => {
     return (
       <main className="px-16 py-6 bg-gray-100 md:col-span-10">
         {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
-        <div className="flex justify-center items-center w-full h-full">
-          <ClipLoader size={25} color={'#9EA5A5'} loading={loading} />
-        </div>
+        <Loading loading={loading} component="recipedetail" />
       </main>
     );
   }
