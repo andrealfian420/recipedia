@@ -12,6 +12,13 @@ export default function Loading({ loading, component }) {
         </div>
       );
 
+    case 'homeRecipeCards':
+      return (
+        <div className="w-full text-center my-5">
+          <ClipLoader size={20} color={'#9EA5A5'} loading={loading} />
+        </div>
+      );
+
     case 'recipedetail':
       return (
         <div className="flex justify-center items-center w-full h-full">

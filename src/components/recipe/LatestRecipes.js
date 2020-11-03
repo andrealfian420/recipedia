@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import LatestRecipesCard from './LatestRecipesCard';
+import Loading from '../loading/Loading';
 
 const LatestRecipes = ({ recipes }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(recipes ? false : true);
+  }, [recipes]);
+
+  if (loading) {
+    return (
+      <>
+        <h4 className="font-bold mt-12 pb-2 border-b-4 border-gray-200">
+          Latest recipes
+        </h4>
+
+        <Loading loading={loading} component="homeRecipeCards" />
+      </>
+    );
+  }
+
   return (
-    <div>
+    <>
       <h4 className="font-bold mt-12 pb-2 border-b-4 border-gray-200">
         Latest recipes
       </h4>
@@ -20,7 +39,7 @@ const LatestRecipes = ({ recipes }) => {
           </span>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
