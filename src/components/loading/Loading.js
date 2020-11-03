@@ -5,7 +5,7 @@ export default function Loading({ loading, component }) {
   switch (component) {
     case 'root':
       return (
-        <div className="flex justify-center align-center h-48">
+        <div className="flex justify-center items-center h-48">
           <div className="my-auto">
             <ClipLoader size={20} color={'#9EA5A5'} loading={loading} />
           </div>
