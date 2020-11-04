@@ -25,7 +25,7 @@ function DefaultLayout({ component: Component, ...rest }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-12 flex-grow min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-12 flex-1">
         <Sidebar isScroll={isScroll} />
         <Component {...rest} />
       </div>

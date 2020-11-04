@@ -25,7 +25,7 @@ import EditRecipe from './components/recipe/EditRecipe';
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div className="app flex flex-col min-h-screen">
         <PublicRoute exact path="/" layout={DefaultLayout} component={Home} />
         <PublicRoute path="/about" layout={DefaultLayout} component={About} />
         <PublicRoute
