@@ -47,21 +47,6 @@ const SidebarLinks = ({ showMobileLinks, auth, signOut }) => {
         </svg>
       </NavLink>
 
-      <NavLink
-        to="!#"
-        className="px-4 py-2 flex justify-center md:justify-end md:items-center border-r-4 border-white"
-      >
-        <span>Contact</span>
-        <svg
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="mail w-6 h-6 ml-3 hidden md:block"
-        >
-          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-        </svg>
-      </NavLink>
-
       {auth ? (
         <>
           <Link

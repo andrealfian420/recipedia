@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signIn } from '../../store/actions/authActions';
 import AuthLinks from './AuthLinks';
@@ -81,12 +80,6 @@ const SignIn = (props) => {
           >
             Sign In
           </button>
-          <Link
-            to="/resetpassword"
-            className="row-span-2 align-baseline mx-auto mt-3 font-bold text-blue-600 hover:text-blue-700 cursor-pointer text-base"
-          >
-            Forgot Password ?
-          </Link>
         </div>
       </form>
       {/* End of Form */}

@@ -17,7 +17,6 @@ import UserProfile from './components/user/UserProfile';
 import ProfileInfo from './components/user/ProfileInfo';
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
-import ForgotPassword from './components/auth/ForgotPassword';
 import RecipeDetail from './components/recipe/RecipeDetail';
 import CreateRecipe from './components/recipe/CreateRecipe';
 import EditRecipe from './components/recipe/EditRecipe';
@@ -68,12 +67,6 @@ function App() {
           path="/signup"
           layout={AuthLayout}
           component={SignUp}
-          isAuthComponent={true}
-        />
-        <PublicRoute
-          path="/resetpassword"
-          layout={AuthLayout}
-          component={ForgotPassword}
           isAuthComponent={true}
         />
       </div>
