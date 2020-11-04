@@ -1,8 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { signOut } from '../../store/actions/authActions';
 import { NavLink, Link } from 'react-router-dom';
 
-const SidebarLinks = (props) => {
-  const { showMobileLinks } = props;
+const SidebarLinks = ({ showMobileLinks, auth, signOut }) => {
+  const handleSignOut = () => {
+    signOut();
+  };
 
   return (
     <div
@@ -58,15 +62,54 @@ const SidebarLinks = (props) => {
         </svg>
       </NavLink>
 
-      <Link to="/signin" className="flex justify-center px-4 py-2 md:hidden">
-        <span>Sign In</span>
-      </Link>
+      {auth ? (
+        <>
+          <Link
+            to="/myprofile"
+            className="flex justify-center px-4 py-2 md:hidden"
+          >
+            <span>Profile</span>
+          </Link>
 
-      <Link to="/signup" className="flex justify-center md:hidden px-4 py-2">
-        <span>Sign Up</span>
-      </Link>
+          <Link
+            to="/createrecipe"
+            className="flex justify-center px-4 py-2 md:hidden"
+          >
+            <span>Make a recipe</span>
+          </Link>
+
+          <span
+            className="block text-center px-2 py-1 text-gray-600 cursor-pointer md:hidden"
+            onClick={handleSignOut}
+          >
+            Logout
+          </span>
+        </>
+      ) : (
+        <>
+          <Link
+            to="/signin"
+            className="flex justify-center px-4 py-2 md:hidden"
+          >
+            <span>Sign In</span>
+          </Link>
+
+          <Link
+            to="/signup"
+            className="flex justify-center md:hidden px-4 py-2"
+          >
+            <span>Sign Up</span>
+          </Link>
+        </>
+      )}
     </div>
   );
 };
 
-export default SidebarLinks;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SidebarLinks);

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import SidebarLinks from './SidebarLinks';
 
-const Sidebar = (props) => {
+const Sidebar = ({ auth }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleMobileMenu = () => {
@@ -41,10 +42,16 @@ const Sidebar = (props) => {
           </div>
           {/* End of Menu Button */}
         </div>
-        <SidebarLinks showMobileLinks={buttonClicked} />
+        <SidebarLinks showMobileLinks={buttonClicked} auth={auth.uid} />
       </nav>
     </div>
   );
 };
 
-export default Sidebar;
+const mapStateToProps = (state) => {
+  return {
+    auth: state?.firebase?.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Sidebar);
