@@ -23,7 +23,7 @@ const Profile = ({ profile, myRecipes }) => {
   }
 
   return (
-    <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+    <main className="px-16 py-6 mt-5 md:mt-0 bg-gray-100 md:col-span-10">
       <UserProfileNavbar />
       <UserProfileSection profile={profile} isOwnProfile={true} />
 

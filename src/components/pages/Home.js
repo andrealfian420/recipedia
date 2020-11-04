@@ -15,7 +15,7 @@ const Home = (props) => {
   const { auth } = props;
 
   return (
-    <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+    <main className="px-16 py-6 bg-gray-100 md:col-span-10 mt-5 md:mt-0">
       {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
       <Header />
       <LatestRecipes />

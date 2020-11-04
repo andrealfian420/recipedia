@@ -31,7 +31,7 @@ const UserProfile = (props) => {
 
   if (loading) {
     return (
-      <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+      <main className="px-16 py-6 bg-gray-100 md:col-span-10 h-screen">
         {userId ? <UserProfileNavbar /> : <SignOutLinks />}
         <Loading loading={loading} component="userProfile" />
       </main>
@@ -39,7 +39,7 @@ const UserProfile = (props) => {
   }
 
   return (
-    <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+    <main className="px-16 py-6 mt-5 md:mt-0 bg-gray-100 md:col-span-10">
       {userId ? <UserProfileNavbar /> : <SignOutLinks />}
       <UserProfileSection profile={authorProfile} isOwnProfile={false} />
 

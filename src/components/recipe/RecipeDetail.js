@@ -51,7 +51,7 @@ const RecipeDetail = (props) => {
   if (loading) {
     document.title = 'Loading..';
     return (
-      <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+      <main className="px-16 py-6 bg-gray-100 md:col-span-10 h-screen">
         {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
         <Loading loading={loading} component="recipeDetail" />
       </main>
@@ -60,7 +60,7 @@ const RecipeDetail = (props) => {
 
   document.title = recipe.title;
   return (
-    <main className="px-16 py-6 bg-gray-100 md:col-span-10">
+    <main className="px-16 py-6 bg-gray-100 md:col-span-10 mt-8 md:mt-0">
       {auth?.uid ? <UserProfileNavbar /> : <SignOutLinks />}
 
       <header>
