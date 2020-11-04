@@ -11,8 +11,7 @@ const ProfileInfo = (props) => {
     props.cleanupPasswordMessage();
     props.cleanupErrorMessage();
     props.cleanupPasswordErrorMessage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props]);
 
   return (
     <main className="px-16 py-6 bg-gray-100 md:col-span-10 mt-8 md:mt-0">
