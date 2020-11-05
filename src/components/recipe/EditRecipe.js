@@ -49,7 +49,7 @@ const EditRecipe = (props) => {
 
   if (loading) {
     return (
-      <main className="px-16 py-6 bg-gray-100 md:col-span-10 h-screen mt-10 md:mt-0">
+      <main className="px-16 py-6 bg-gray-100 md:col-span-10 mt-10 md:mt-0">
         <UserProfileNavbar />
         <Loading loading={loading} component="editRecipe" />
       </main>
