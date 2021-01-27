@@ -49,10 +49,20 @@ const CreateRecipe = (props) => {
   const handleInputFile = (e) => {
     e.preventDefault();
 
-    const inputtedImage = e.target.files[0] ?? image;
+    const recipeImage = e.target.files[0] ?? image;
 
-    setImage(inputtedImage);
-    setImageTempURL(URL.createObjectURL(inputtedImage));
+    const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+
+    if (!allowedTypes.includes(recipeImage.type)) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'The selected file is not a valid image !',
+        icon: 'error',
+      });
+    }
+
+    setImage(recipeImage);
+    setImageTempURL(URL.createObjectURL(recipeImage));
     setIsImageExist(true);
   };
 
