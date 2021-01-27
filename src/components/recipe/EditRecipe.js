@@ -77,10 +77,20 @@ const EditRecipe = (props) => {
   const handleInputFile = (e) => {
     e.preventDefault();
 
-    const inputtedImage = e.target.files[0] ?? image;
+    const recipeImage = e.target.files[0] ?? image;
 
-    setImage(inputtedImage);
-    setImageTempURL(URL.createObjectURL(inputtedImage));
+    const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+
+    if (!allowedTypes.includes(recipeImage.type)) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'The selected file is not a valid image !',
+        icon: 'error',
+      });
+    }
+
+    setImage(recipeImage);
+    setImageTempURL(URL.createObjectURL(recipeImage));
   };
 
   const handleReInputFile = () => {
@@ -119,7 +129,7 @@ const EditRecipe = (props) => {
     if (durationUnit !== '') {
       return setDurationUnit(durationUnit);
     } else {
-      return false;
+      return setDurationUnit(null);
     }
   };
 
@@ -131,12 +141,24 @@ const EditRecipe = (props) => {
     }`;
 
     const recipeData = {
-      title: title ?? recipe?.title,
-      image: image ?? recipe?.image,
-      ingredients: ingredients ?? recipe?.ingredients,
-      instructions: instructions ?? recipe?.instructions,
+      title: title?.length ? title : recipe.title,
+      image: image?.length ? image : recipe.image,
+      ingredients: ingredients?.length ? ingredients : recipe.ingredients,
+      instructions: instructions?.length ? instructions : recipe.instructions,
       duration,
     };
+
+    if (
+      Object.values(recipeData).some((value) => value === null) ||
+      recipeData.ingredients === '<p><br></p>' ||
+      recipeData.instructions === '<p><br></p>'
+    ) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'Some data is still empty !',
+        icon: 'error',
+      });
+    }
 
     updateRecipe(recipe.id, recipeData);
   };
@@ -257,7 +279,7 @@ const EditRecipe = (props) => {
               onChange={handleDurationUnitChange}
               defaultValue={recipeDurationUnit}
             >
-              <option>--Select unit of time--</option>
+              <option value="">--Select unit of time--</option>
               <option value="mins">Mins</option>
               <option value="hours">Hours</option>
             </select>
