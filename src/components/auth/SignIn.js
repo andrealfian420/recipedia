@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signIn } from '../../store/actions/authActions';
+import Swal from 'sweetalert2';
 import AuthLinks from './AuthLinks';
 
 const SignIn = (props) => {
@@ -28,6 +29,14 @@ const SignIn = (props) => {
       email,
       password,
     };
+
+    if (Object.values(userData).some((value) => value === null)) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'Some data is still empty !',
+        icon: 'error',
+      });
+    }
 
     signIn(userData);
   };

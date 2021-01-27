@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUp } from '../../store/actions/authActions';
+import Swal from 'sweetalert2';
 import AuthLinks from './AuthLinks';
 
 const SignUp = (props) => {
@@ -47,8 +48,20 @@ const SignUp = (props) => {
       password,
     };
 
+    if (Object.values(userData).some((value) => value === null)) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'Some data is still empty !',
+        icon: 'error',
+      });
+    }
+
     if (userData.password !== confirmPassword) {
-      return alert('Password Beda');
+      return Swal.fire({
+        title: 'Error',
+        text: 'The password and the confirmation password is not match !',
+        icon: 'error',
+      });
     }
 
     signUp(userData);
