@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { v4 as uuid } from 'uuid';
+import Swal from 'sweetalert2';
 import { updateProfile } from '../../store/actions/authActions';
 
 const UpdateProfile = (props) => {
@@ -22,13 +23,24 @@ const UpdateProfile = (props) => {
   };
 
   const handleImageInput = (e) => {
-    const inputtedImage = e.target.files[0];
+    const recipeImage = e.target.files[0];
+
+    const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+
+    if (!allowedTypes.includes(recipeImage.type)) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'The selected file is not a valid image !',
+        icon: 'error',
+      });
+    }
+
     const fileName = `${uuid()}`;
-    setImageTempURL(URL.createObjectURL(inputtedImage));
+    setImageTempURL(URL.createObjectURL(recipeImage));
 
     const image = {
       fileName,
-      image: inputtedImage,
+      image: recipeImage,
     };
 
     return setNewProfileImage(image);
@@ -44,10 +56,19 @@ const UpdateProfile = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (!firstName?.length || !lastName?.length) {
+      return Swal.fire({
+        title: 'Error',
+        text: 'Some data is still empty !',
+        icon: 'error',
+      });
+    }
+
     const newData = {
       newProfileImage: newProfileImage,
-      firstName: firstName ?? profile.firstName,
-      lastName: lastName ?? profile.lastName,
+      firstName: firstName?.length ? firstName : profile.firstName,
+      lastName: lastName?.length ? lastName : profile.lastName,
     };
 
     return updateProfile(userId, newData);
